@@ -32,8 +32,8 @@ export default async function NexifyDev() {
       </section>
       <div className="wrap">
         <div className="bento bento--2">
-          <Tile as="article"><h2 className="tile__title">{n.whatTitle}</h2><p className="tile__text">{n.whatText}</p></Tile>
-          <Tile as="article"><h2 className="tile__title">{n.statusTitle}: <span className="badge">{n.statusValue}</span></h2><p className="tile__text">{n.statusText}</p></Tile>
+          <Tile as="article"><h2 className="card__title">{n.whatTitle}</h2><p className="card__text">{n.whatText}</p></Tile>
+          <Tile as="article"><h2 className="card__title">{n.statusTitle}: <span className="badge">{n.statusValue}</span></h2><p className="card__text">{n.statusText}</p></Tile>
         </div>
       </div>
       <section className="sec" aria-labelledby="log-title">
@@ -41,7 +41,7 @@ export default async function NexifyDev() {
           <h2 className="shead__title shead__title--sm" id="log-title" data-reveal="">{n.logTitle}</h2>
           <p className="log" data-reveal=""><span aria-hidden>›</span> {n.logEmpty}</p>
           <div className="devback" data-reveal="" data-spot="">
-            <div><h2 className="tile__title">{n.backTitle}</h2><p className="tile__text">{n.backText}</p></div>
+            <div><h2 className="card__title">{n.backTitle}</h2><p className="card__text">{n.backText}</p></div>
             <div className="actions"><Button href="/about" variant="ghost">{d.nav.about}</Button><Button href="/services" variant="ghost">{d.nav.services}</Button></div>
           </div>
         </div>

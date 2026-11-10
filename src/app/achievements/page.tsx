@@ -18,24 +18,24 @@ export default async function Achievements() {
       <div className="wrap"><Callout title={a.clarifyTitle} text={a.clarifyText} tone="warn" /></div>
       <section className="sec" aria-labelledby="hl-title">
         <div className="wrap">
-          <SectionHead title={a.highlightsTitle} id="hl-title" kicker="01" />
+          <SectionHead title={a.highlightsTitle} id="hl-title" />
           <Highlights d={d} cols={4} />
         </div>
       </section>
       <section className="sec" aria-labelledby="tl-title">
         <div className="wrap">
-          <SectionHead title={a.timelineTitle} lead={d.resume.experienceNote} id="tl-title" kicker="02" />
+          <SectionHead title={a.timelineTitle} lead={d.resume.experienceNote} id="tl-title" />
           <Timeline d={d} />
         </div>
       </section>
       <section className="sec sec--tight" aria-labelledby="tracker-title">
         <div className="wrap">
           <div className="extprofile" data-reveal="" data-spot="">
-            <span className="tile__icon" aria-hidden><Icon name="tracker" /></span>
+            <span className="card__icon" aria-hidden><Icon name="tracker" /></span>
             <div>
               <p className="kicker">{d.common.external}</p>
-              <h2 className="tile__title" id="tracker-title">{a.trackerTitle}</h2>
-              <p className="tile__text">{a.trackerText}</p>
+              <h2 className="card__title" id="tracker-title">{a.trackerTitle}</h2>
+              <p className="card__text">{a.trackerText}</p>
             </div>
             <Button href={tracker.href!} variant="ghost" icon="external" external newTabLabel={d.common.newTab}>{a.trackerLink}</Button>
           </div>

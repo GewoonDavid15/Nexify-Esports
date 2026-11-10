@@ -33,14 +33,13 @@ npm run build && npm start
 ## Animations
 
 Motion handles:
-- the holographic player card that tilts with the pointer
+- the typewriter headline
 - shared-layout pills in the navigation and language switch
 - the full-screen mobile menu
-- the rotating roles
 - counters and the scroll-driven timeline
 - page transitions
 
-CSS handles the aurora sky, grid floor, word reveals and marquees. Small attribute-based effects (`data-reveal`, `data-spot`, `data-magnetic`, `data-copy`) live in `components/layout/Effects.tsx`.
+CSS handles the entrance animations, floating icon tiles and hover states. Small attribute-based effects (`data-reveal`, `data-spot`, `data-magnetic`, `data-copy`) live in `components/layout/Effects.tsx`.
 
 Server-rendered content is never hidden before JavaScript loads. Everything respects `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` plus CSS).
 
@@ -77,7 +76,6 @@ npm run build:cv
 ## Other assets
 
 - `npm run build:og` rebuilds the share image (`public/og-image.png`).
-- `npm run build:clouds` rebuilds the cloud textures (`public/img/clouds-*.webp`).
 
 ## Checks
 

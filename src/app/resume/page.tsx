@@ -17,18 +17,18 @@ export default async function Resume() {
       <div className="wrap resume">
         <div className="resume__main">
           <section className="sec sec--top0" aria-labelledby="profile-title">
-            <SectionHead title={r.profileTitle} id="profile-title" kicker="01" />
+            <SectionHead title={r.profileTitle} id="profile-title" />
             <p className="resume__profile" data-reveal="">{r.profileText}</p>
             <dl className="facts" data-reveal="">
               {r.details.map((x) => <div key={x.label} className="facts__item"><dt>{x.label}</dt><dd>{x.value}</dd></div>)}
             </dl>
           </section>
           <section className="sec" aria-labelledby="hl-title">
-            <SectionHead title={r.highlightsTitle} id="hl-title" kicker="02" />
+            <SectionHead title={r.highlightsTitle} id="hl-title" />
             <Highlights d={d} cols={2} />
           </section>
           <section className="sec" aria-labelledby="exp-title">
-            <SectionHead title={r.experienceTitle} lead={r.experienceNote} id="exp-title" kicker="03" />
+            <SectionHead title={r.experienceTitle} lead={r.experienceNote} id="exp-title" />
             <Timeline d={d} />
             <Callout title={d.achievements.clarifyTitle} text={r.note} />
           </section>

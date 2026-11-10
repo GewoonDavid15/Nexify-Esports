@@ -14,7 +14,6 @@ const groups = (d: Dict) => [
 export function Footer({ d }: { d: Dict }) {
   return (
     <footer className="ftr">
-      <div className="ftr__glow" aria-hidden />
       <div className="wrap">
         <div className="ftr__grid">
           <div className="ftr__brand">
@@ -35,7 +34,6 @@ export function Footer({ d }: { d: Dict }) {
             <Socials d={d} compact />
           </div>
         </div>
-        <p className="ftr__word" aria-hidden data-reveal>NEXIFY</p>
         <div className="ftr__bottom">
           <p>© {new Date().getFullYear()} Nexify. {d.common.footerNote}</p>
           <p>{d.common.footerDraft}</p>

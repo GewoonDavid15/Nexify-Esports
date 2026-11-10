@@ -10,8 +10,8 @@ export function Timeline({ d }: { d: Dict }) {
   return (
     <TimelineLine>
       <ol className="tl__list">
-        {items.map((e, i) => (
-          <li key={e.id} className={`tl__item ${i % 2 ? 'tl__item--r' : 'tl__item--l'}`} data-reveal="">
+        {items.map((e) => (
+          <li key={e.id} className="tl__item" data-reveal="">
             <span className="tl__dot" aria-hidden />
             <article className="tl__card" data-spot="">
               <p className="tl__period">{d.periods[e.period]}</p>
@@ -34,10 +34,10 @@ export function Highlights({ d, cols = 4 }: { d: Dict; cols?: 2 | 4 }) {
   return (
     <div className={`bento bento--hl bento--${cols}`}>
       {d.highlights.map((h) => (
-        <article key={h.title} className="tile tile--hl" data-spot="" data-reveal="">
+        <article key={h.title} className="card card--hl" data-spot="" data-reveal="">
           <Counter value={h.value} className="hl__value" />
-          <h3 className="tile__title">{h.title}</h3>
-          <p className="tile__text">{h.text}</p>
+          <h3 className="card__title">{h.title}</h3>
+          <p className="card__text">{h.text}</p>
         </article>
       ))}
     </div>

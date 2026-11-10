@@ -6,6 +6,8 @@ const en = {
   locale: 'en',
 
   common: {
+    moreInfo: 'More info',
+    letsTalk: 'Let’s talk',
     skip: 'Skip to main content',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
@@ -136,6 +138,9 @@ const en = {
   },
 
   home: {
+    heroLine: 'Hi, I’m Nexify.',
+    what: { badge: 'What I do', title: 'Player, manager, *builder*', lead: 'Competitive Fortnite, esports social media and the tech behind it — all from one person.', labels: ['Controller · PC', 'Vertex · NovaRise · Aether · Haze', 'BDFD · OBS · Lua · Python'] },
+    hl: { badge: 'Highlights', title: 'From founder to *free agent*', lead: 'Highlights from my official resume.' },
     roles: ['Esports Social Media Manager', 'Competitive Fortnite Player', 'Discord bot builder'],
     discordStat: { value: '1,500+', label: 'Discord members grown at Novaris Esports' },
     card: { label: 'Player card', status: 'Status', statusValue: 'Free agent', role: 'Role', roleValue: 'SMM · Player', input: 'Input', inputValue: 'Controller · PC', base: 'Base', baseValue: 'NL · CET', since: 'Since', languages: 'Languages' },

@@ -10,10 +10,11 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Sky } from '@/components/layout/Sky';
 import { Effects } from '@/components/layout/Effects';
-import { ScrollProgress, BackToTop } from '@/components/layout/ScrollUi';
+import { ScrollProgress } from '@/components/layout/ScrollUi';
+import { FloatCta } from '@/components/layout/FloatCta';
 import { Providers } from '@/components/layout/Providers';
 
-export const viewport: Viewport = { themeColor: '#06040b', colorScheme: 'dark' };
+export const viewport: Viewport = { themeColor: '#0a0b10', colorScheme: 'dark' };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const { lang, d } = await getI18n();
@@ -51,7 +52,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           />
           <main id="main" tabIndex={-1}>{children}</main>
           <Footer d={d} />
-          <BackToTop label={d.common.backToTop} />
+          <FloatCta label={d.common.letsTalk} />
           <div className="toast" role="status" aria-live="polite" data-toast />
           <Effects copiedLabel={d.common.copied} />
         </Providers>

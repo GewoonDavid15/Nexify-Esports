@@ -14,20 +14,20 @@ export default async function About() {
       <PageHero eyebrow={a.eyebrow} title={a.title} lead={a.lead} />
       <section className="sec sec--top0" aria-labelledby="tracks-title">
         <div className="wrap">
-          <SectionHead title={a.tracksTitle} id="tracks-title" kicker="01" />
+          <SectionHead title={a.tracksTitle} id="tracks-title" />
           <div className="bento bento--3">
-            <Tile as="article"><TileIcon name="gamepad" /><h3 className="tile__title">{a.playerTitle}</h3><p className="tile__text">{a.playerText}</p></Tile>
-            <Tile as="article"><TileIcon name="megaphone" /><h3 className="tile__title">{a.contentTitle}</h3><p className="tile__text">{a.contentText}</p></Tile>
-            <Tile as="article"><TileIcon name="bot" /><h3 className="tile__title">{a.techTitle}</h3><p className="tile__text">{a.techText}</p></Tile>
+            <Tile as="article"><TileIcon name="gamepad" /><h3 className="card__title">{a.playerTitle}</h3><p className="card__text">{a.playerText}</p></Tile>
+            <Tile as="article"><TileIcon name="megaphone" /><h3 className="card__title">{a.contentTitle}</h3><p className="card__text">{a.contentText}</p></Tile>
+            <Tile as="article"><TileIcon name="bot" /><h3 className="card__title">{a.techTitle}</h3><p className="card__text">{a.techText}</p></Tile>
           </div>
           <div className="bento bento--origin">
             <Tile as="article" className="origin">
               <span className="origin__year" aria-hidden>2020</span>
-              <div><h3 className="tile__title">{a.founderTitle}</h3><p className="tile__text">{a.founderText}</p></div>
+              <div><h3 className="card__title">{a.founderTitle}</h3><p className="card__text">{a.founderText}</p></div>
             </Tile>
             <Tile as="article" className="b-stat">
               <Counter value={d.home.discordStat.value} className="big-num" />
-              <p className="tile__text">{d.home.discordStat.label}</p>
+              <p className="card__text">{d.home.discordStat.label}</p>
             </Tile>
           </div>
         </div>
@@ -35,7 +35,7 @@ export default async function About() {
       <section className="sec" aria-labelledby="now-title">
         <div className="wrap">
           <div className="now" data-reveal="" data-spot="">
-            <SectionHead title={a.nowTitle} id="now-title" kicker="02" />
+            <SectionHead title={a.nowTitle} id="now-title" />
             <div className="now__body">
               <p className="now__big">{a.nowText1}</p>
               <p>{a.nowText2}</p>

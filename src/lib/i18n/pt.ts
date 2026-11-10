@@ -6,6 +6,8 @@ const pt: Dict = {
   locale: 'pt-PT',
 
   common: {
+    moreInfo: 'Saber mais',
+    letsTalk: 'Vamos falar',
     skip: 'Saltar para o conteúdo principal',
     menuOpen: 'Abrir menu',
     menuClose: 'Fechar menu',
@@ -136,6 +138,9 @@ const pt: Dict = {
   },
 
   home: {
+    heroLine: 'Olá, sou o Nexify.',
+    what: { badge: 'O que faço', title: 'Jogador, gestor, *criador*', lead: 'Fortnite competitivo, redes sociais de esports e a tecnologia por trás — tudo numa só pessoa.', labels: ['Comando · PC', 'Vertex · NovaRise · Aether · Haze', 'BDFD · OBS · Lua · Python'] },
+    hl: { badge: 'Destaques', title: 'De fundador a *free agent*', lead: 'Destaques do meu currículo oficial.' },
     roles: ['Esports Social Media Manager', 'Jogador competitivo de Fortnite', 'Criador de bots de Discord'],
     discordStat: { value: '1500+', label: 'Membros no Discord da Novaris Esports' },
     card: { label: 'Cartão de jogador', status: 'Estado', statusValue: 'Free agent', role: 'Função', roleValue: 'SMM · Jogador', input: 'Controlo', inputValue: 'Comando · PC', base: 'Base', baseValue: 'NL · CET', since: 'Desde', languages: 'Línguas' },

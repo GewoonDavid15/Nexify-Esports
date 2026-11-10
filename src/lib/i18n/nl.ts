@@ -6,6 +6,8 @@ const nl: Dict = {
   locale: 'nl',
 
   common: {
+    moreInfo: 'Meer info',
+    letsTalk: 'Laten we praten',
     skip: 'Direct naar de inhoud',
     menuOpen: 'Menu openen',
     menuClose: 'Menu sluiten',
@@ -136,6 +138,9 @@ const nl: Dict = {
   },
 
   home: {
+    heroLine: 'Hoi, ik ben Nexify.',
+    what: { badge: 'Wat ik doe', title: 'Speler, manager, *bouwer*', lead: 'Competitief Fortnite, social media voor esports en de techniek erachter — allemaal van één persoon.', labels: ['Controller · pc', 'Vertex · NovaRise · Aether · Haze', 'BDFD · OBS · Lua · Python'] },
+    hl: { badge: 'Hoogtepunten', title: 'Van oprichter tot *free agent*', lead: 'Hoogtepunten uit mijn officiële cv.' },
     roles: ['Esports Social Media Manager', 'Competitief Fortnite-speler', 'Bouwer van Discord-bots'],
     discordStat: { value: '1.500+', label: 'Discord-leden bij Novaris Esports' },
     card: { label: 'Spelerskaart', status: 'Status', statusValue: 'Free agent', role: 'Rol', roleValue: 'SMM · Speler', input: 'Invoer', inputValue: 'Controller · pc', base: 'Basis', baseValue: 'NL · CET', since: 'Sinds', languages: 'Talen' },

@@ -29,8 +29,8 @@ export default async function Skills() {
                 <TileIcon name={icons[g.id]} />
                 <span className="kicker">{String(i + 1).padStart(2, '0')}</span>
               </div>
-              <h2 className="tile__title">{s.groups[g.id as keyof typeof s.groups].title}</h2>
-              <p className="tile__text">{s.groups[g.id as keyof typeof s.groups].text}</p>
+              <h2 className="card__title">{s.groups[g.id as keyof typeof s.groups].title}</h2>
+              <p className="card__text">{s.groups[g.id as keyof typeof s.groups].text}</p>
               <Chips items={g.items} mono={g.mono} />
             </Tile>
           ))}
