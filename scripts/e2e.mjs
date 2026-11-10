@@ -75,11 +75,8 @@ try {
     const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('a[download]').first().click()]);
     if (!fs.readFileSync(await dl.path()).subarray(0, 4).toString().startsWith('%PDF')) fail('CV download is not a PDF');
     await page.goto(`${base}/contact`, { waitUntil: 'networkidle' });
-    if (!(await page.locator('.cform button[type=submit]').isDisabled())) fail('submit should be disabled without a provider');
-    await page.fill('#f-email', 'not-an-email');
-    await page.locator('#f-email').blur();
-    await page.waitForTimeout(200);
-    if (!(await page.textContent('#f-email-err'))?.trim()) fail('client-side validation message missing');
+    if (await page.locator('form').count()) fail('contact page should not have a form');
+    if (!(await page.locator('a[href^="mailto:"]').count())) fail('contact page is missing the email link');
     await ctx.close();
   }
   // Client-side navigation keeps the language and animates in

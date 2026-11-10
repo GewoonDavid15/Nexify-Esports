@@ -34,10 +34,6 @@ const nextConfig: NextConfig = {
       { source: '/img/:file*', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
     ];
   },
-  experimental: {
-    // Body limit for the contact server action.
-    serverActions: { bodySizeLimit: '64kb' },
-  },
 };
 
 export default nextConfig;

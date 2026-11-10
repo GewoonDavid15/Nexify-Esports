@@ -20,19 +20,16 @@ npm run build && npm start
 | Path | What |
 |---|---|
 | `src/app/` | Routes (`page.tsx` per page), root `layout.tsx`, `template.tsx` (page transitions), `sitemap.ts`, `robots.ts` |
-| `src/app/contact/actions.ts` | Server action for the contact form |
-| `src/app/api/contact/route.ts` | JSON endpoint, using the same logic as the server action |
 | `src/app/lang/[code]/route.ts` | Language switch: sets the cookie and returns to the same page |
 | `src/proxy.ts` | Picks the language (`?lang=` > cookie > English) and sets a per-request nonce CSP |
 | `src/components/` | `layout/` (header, footer, sky, effects), `motion/` (client animations), `sections/`, `ui/` |
 | `src/lib/i18n/{en,nl,pt}.ts` | All text. TypeScript enforces that NL/PT match the English shape |
 | `src/lib/resume.ts` | Resume facts (roles, skills, tools) |
 | `src/lib/config.ts` | Public email and social links, each set in one place |
-| `src/lib/contact/` | Validation, spam protection, mailer |
 
 ## Rendering
 
-Every page is **statically generated per language** under `src/app/[lang]/` (`generateStaticParams`). `src/proxy.ts` keeps the URLs clean: it picks the language (`?lang=` > cookie > English) and rewrites `/about` to `/nl/about` internally. A direct `/nl/…` URL redirects to the clean one. Only `/contact` is rendered per request, because its anti-spam token must be fresh.
+Every page is **statically generated per language** under `src/app/[lang]/` (`generateStaticParams`). `src/proxy.ts` keeps the URLs clean: it picks the language (`?lang=` > cookie > English) and rewrites `/about` to `/nl/about` internally. A direct `/nl/…` URL redirects to the clean one. 
 
 Because the pages are static, the CSP is a static header (`next.config.ts`) and allows Next's inline bootstrap scripts.
 
@@ -65,27 +62,9 @@ CSS handles the entrance animations, floating icon tiles and hover states. Small
 
 Server-rendered content is never hidden before JavaScript loads. Everything respects `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` plus CSS).
 
-## Contact form
+## Contact
 
-The form is a server action that also works without JavaScript. It validates on the client and the server, and shows success **only after the email provider accepts the message**. Until a provider is configured, the form says so and the submit button is disabled.
-
-Configure one provider with environment variables in Vercel (**Project → Settings → Environment Variables**). Never put these in client code or commit them; see `.env.example`.
-
-| Provider | Variables |
-|---|---|
-| Resend | `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` |
-| SMTP | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_FROM_EMAIL` (`SMTP_SECURE=true` for port 465) |
-
-Optional settings: `CONTACT_TO_EMAIL` and `FORM_SECRET`.
-
-Spam protection:
-- a honeypot field
-- a signed render timestamp (submissions faster than 3 s or older than 2 h are rejected)
-- the server action's built-in origin check
-- a best-effort in-memory rate limit
-- length limits
-
-Message contents are never stored or logged.
+There is no contact form and no email provider. `/contact` shows the email address (`PUBLIC_CONTACT_EMAIL` in `src/lib/config.ts`) with a mailto link and a copy button, the Discord username with a copy button and live status, and the social links. The site never receives or stores messages.
 
 ## CV
 
@@ -103,7 +82,7 @@ npm run build:cv
 ## Checks
 
 ```bash
-npm run check        # TypeScript + Vitest (translations, validation, spam, SMTP delivery)
+npm run check        # TypeScript + Vitest (translations)
 ```
 
 ```bash

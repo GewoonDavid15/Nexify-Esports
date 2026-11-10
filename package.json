@@ -2,7 +2,7 @@
   "name": "nexify-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio website for Nexify \u2014 Esports Social Media Manager & competitive Fortnite player. Next.js + TypeScript.",
+  "description": "Portfolio website for Nexify — Esports Social Media Manager & competitive Fortnite player. Next.js + TypeScript.",
   "engines": {
     "node": ">=20.9"
   },
@@ -25,18 +25,14 @@
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "motion": "^12.43.0",
     "next": "^16.4.6",
-    "nodemailer": "^10.5.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
-    "@types/nodemailer": "^8.0.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@types/smtp-server": "^3.5.13",
-    "smtp-server": "^3.21.3",
     "typescript": "^5.9.3",
     "vitest": "^5.1.0"
   }
