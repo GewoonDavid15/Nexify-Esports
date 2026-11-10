@@ -1,0 +1,29 @@
+{
+  "name": "nexify-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone portfolio website for Nexify — Fortnite player and Esports Social Media Manager.",
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "node scripts/e2e.mjs",
+    "build:cv": "node scripts/build-cv.mjs",
+    "check": "npm run check:i18n && npm test"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/sora": "^5.3.0",
+    "express": "^4.22.3",
+    "nodemailer": "^10.4.0"
+  },
+  "devDependencies": {
+    "smtp-server": "^3.21.3"
+  }
+}
