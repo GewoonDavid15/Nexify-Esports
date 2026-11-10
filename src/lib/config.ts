@@ -14,6 +14,22 @@ export const site = {
   ogImage: '/og-image.png',
 };
 
+/**
+ * ONE switch for availability — change this when you sign with a team.
+ *   { state: 'free' }                                   → "Free agent — open to …"
+ *   { state: 'signed', team: 'Team Name', role: 'Social Media Manager' } → "Signed — … at Team Name"
+ */
+export const status: { state: 'free' | 'signed'; team?: string; role?: string } = { state: 'free' };
+
+/**
+ * Live Discord status (via Lanyard, https://github.com/Phineas/lanyard).
+ * Fill in your numeric Discord user ID (Discord → Settings → Advanced →
+ * Developer Mode → right-click your name → Copy User ID) and join the Lanyard
+ * Discord server once. Can also be set with the DISCORD_USER_ID env var.
+ * Empty = the status card is hidden.
+ */
+export const DISCORD_USER_ID = '';
+
 export type SocialId = 'youtube' | 'x' | 'discord' | 'tracker';
 export interface Social {
   id: SocialId;

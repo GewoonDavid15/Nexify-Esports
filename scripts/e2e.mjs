@@ -11,7 +11,7 @@ import fs from 'node:fs';
 const { chromium, devices } = createRequire(import.meta.url)('playwright');
 const PORT = 3999;
 const base = `http://127.0.0.1:${PORT}`;
-const routes = ['/', '/about', '/achievements', '/resume', '/skills', '/services', '/portfolio', '/testimonials', '/contact', '/nexify-dev', '/privacy', '/terms', '/cookies', '/disclaimer'];
+const routes = ['/', '/about', '/achievements', '/resume', '/skills', '/services', '/portfolio', '/testimonials', '/contact', '/nexify-dev', '/privacy', '/terms', '/cookies', '/disclaimer', '/media-kit'];
 
 // Spawn node directly (not npx) so killing it really stops the server.
 const server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '-p', String(PORT), '-H', '127.0.0.1'], { stdio: 'ignore', detached: true, env: { ...process.env, NEXT_TELEMETRY_DISABLED: '1' } });
@@ -98,6 +98,32 @@ try {
       await page.goto(base); await page.keyboard.press('Tab');
       if (!(await page.evaluate(() => document.activeElement?.classList.contains('skip')))) fail('first Tab should focus the skip link');
     }
+    await ctx.close();
+  }
+  // Command palette, language suggestion, media kit PDFs
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, locale: 'nl-NL' });
+    const page = await ctx.newPage();
+    await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+    const banner = page.locator('.lsug');
+    await banner.waitFor({ timeout: 4000 }).catch(() => fail('language suggestion did not appear for a Dutch browser'));
+    if (await banner.count()) {
+      await banner.locator('button').click();
+      const cookies = await ctx.cookies();
+      if (!cookies.some((c) => c.name === 'nexify_lang' && c.value === 'en')) fail('"No thanks" did not store the language');
+    }
+    await page.keyboard.press('Control+k');
+    await page.waitForSelector('.cmdk__input:focus').catch(() => fail('Ctrl+K did not open the palette'));
+    await page.keyboard.type('resume');
+    await page.waitForSelector('.cmdk__item.is-active');
+    await page.keyboard.press('Enter');
+    await page.waitForURL(`${base}/resume`, { timeout: 5000 }).catch(() => fail('palette did not navigate to /resume'));
+    for (const l of ['EN', 'NL', 'PT']) {
+      const r = await fetch(`${base}/media-kit/Nexify-Media-Kit-${l}.pdf`);
+      if (r.status !== 200 || !(r.headers.get('content-type') || '').includes('pdf')) fail(`media kit ${l} PDF not served`);
+    }
+    const ds = await (await fetch(`${base}/api/discord-status`)).json();
+    if (ds.enabled !== false) fail('discord status should be disabled without a user ID');
     await ctx.close();
   }
   // Reduced motion: nothing stays hidden

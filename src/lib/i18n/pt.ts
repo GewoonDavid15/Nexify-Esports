@@ -6,6 +6,26 @@ const pt: Dict = {
   locale: 'pt-PT',
 
   common: {
+    search: 'Pesquisar',
+    searchPh: 'Pesquisar páginas e ações…',
+    searchEmpty: 'Sem resultados',
+    searchPages: 'Páginas',
+    searchActions: 'Ações',
+    searchLanguage: 'Idioma',
+    sendEmail: 'Enviar um email',
+    openOn: 'Abrir {name}',
+    searchClose: 'Fechar pesquisa',
+    langSuggest: 'Este site também está disponível em português.',
+    langSuggestYes: 'Ver em português',
+    langSuggestNo: 'Não, obrigado',
+    discordLabel: 'Estado no Discord',
+    discordOnline: 'Online no Discord',
+    discordIdle: 'Ausente no Discord',
+    discordDnd: 'Ocupado no Discord',
+    discordOffline: 'Offline no Discord',
+    discordPlaying: 'A jogar {name}',
+    avatarAlt: 'Retrato ilustrado do Nexify',
+    availabilitySigned: '<strong>Contratado</strong> — {role} na {team}',
     moreInfo: 'Saber mais',
     letsTalk: 'Vamos falar',
     skip: 'Saltar para o conteúdo principal',
@@ -42,6 +62,7 @@ const pt: Dict = {
   },
 
   nav: {
+    mediaKit: 'Media kit',
     home: 'Início',
     about: 'Sobre mim',
     achievements: 'Experiência',
@@ -134,10 +155,12 @@ const pt: Dict = {
     terms: { title: 'Termos de utilização', description: 'Termos de utilização deste site. Rascunho informativo.' },
     cookies: { title: 'Cookies', description: 'O único cookie funcional que este site utiliza e porquê.' },
     disclaimer: { title: 'Aviso legal', description: 'Notas importantes sobre a informação deste site.' },
+    mediaKit: { title: 'Media kit', description: 'O media kit do Nexify: perfil, experiência, destaques, competências e contacto numa só página.' },
     notFound: { title: 'Página não encontrada', description: 'Esta página não existe.' },
   },
 
   home: {
+    statusTextSigned: 'Atualmente {role} na {team} · Fuso horário: CET (Países Baixos).',
     heroLine: 'Olá, sou o Nexify.',
     what: { badge: 'O que faço', title: 'Jogador, gestor, *criador*', lead: 'Fortnite competitivo, redes sociais de esports e a tecnologia por trás — tudo numa só pessoa.', labels: ['Comando · PC', 'Vertex · NovaRise · Aether · Haze', 'BDFD · OBS · Lua · Python'] },
     hl: { badge: 'Destaques', title: 'De fundador a *free agent*', lead: 'Destaques do meu currículo oficial.' },
@@ -362,6 +385,27 @@ const pt: Dict = {
     backText: 'A minha experiência, competências e serviços estão nas páginas principais.',
   },
 
+  mediaKit: {
+    eyebrow: 'Media kit',
+    title: 'Media kit',
+    lead: 'Tudo sobre o Nexify numa só página — pronto a partilhar com a sua equipa.',
+    download: 'Descarregar PDF',
+    print: 'Imprimir',
+    profile: 'Perfil',
+    experience: 'Experiência',
+    highlights: 'Destaques',
+    skills: 'Competências',
+    tools: 'Ferramentas',
+    languages: 'Línguas',
+    contact: 'Contacto',
+    note: 'Com base no currículo oficial do Nexify.',
+  },
+
+  updates: {
+    title: 'Atualizações',
+    empty: 'Ainda sem atualizações.',
+  },
+
   legal: {
     draftTitle: 'Rascunho informativo',
     draftText: 'Esta página é um rascunho incompleto e não foi revista por um profissional da área jurídica. A identidade legal do proprietário e um contacto próprio para questões de privacidade ainda não foram fornecidos. A página não afirma que este site cumpre qualquer lei em particular.',
@@ -377,14 +421,15 @@ const pt: Dict = {
     missing: [
       'O nome legal da pessoa responsável por este site.',
       'Um endereço de contacto para questões e pedidos de privacidade.',
-      'Que fornecedor de alojamento e que serviço de envio de email são utilizados.',
+      'Que serviço de envio de email é utilizado no formulário de contacto.',
       'Durante quanto tempo os emails do formulário de contacto são guardados depois de recebidos.',
     ],
     sections: [
       { h: 'Quem gere este site', p: ['Este site é o portefólio pessoal de Nexify. É gerido por um particular, não por uma empresa. O nome legal do proprietário e um contacto de privacidade ainda não foram adicionados.'] },
       { h: 'O que este site não faz', list: ['Não utiliza ferramentas de análise (analytics).', 'Não utiliza cookies de publicidade nem de rastreamento.', 'Não incorpora conteúdos de terceiros, como vídeos ou widgets de redes sociais.', 'Os tipos de letra são fornecidos pelo próprio site, e não por um serviço externo.'] },
       { h: 'Formulário de contacto', p: ['Se utilizar o formulário de contacto, o nome, o endereço de email, o assunto e a mensagem que escrever são enviados por email para a caixa de correio de Nexify através de um serviço de envio de email. O seu endereço de email é usado para lhe poder responder.', 'O site não guarda a sua mensagem numa base de dados, e os registos do servidor não registam o conteúdo das mensagens. O serviço de envio de email e a caixa de correio podem guardar cópias do email; o prazo de conservação dos emails ainda não foi definido.'] },
-      { h: 'Dados técnicos', p: ['Quando visita um site, o seu navegador envia informação técnica, como o seu endereço IP. O fornecedor de alojamento pode manter os seus próprios registos técnicos.', 'Para evitar spam, o servidor guarda temporariamente na memória de trabalho os endereços IP dos dispositivos que enviam o formulário de contacto, durante um máximo de 15 minutos. Não são gravados numa base de dados nem num ficheiro.'] },
+      { h: 'Dados técnicos', p: ['Quando visita um site, o seu navegador envia informação técnica, como o seu endereço IP. Este site é alojado pela Vercel Inc., que pode manter os seus próprios registos técnicos de acordo com a sua política de privacidade.', 'Para evitar spam, o servidor guarda temporariamente na memória de trabalho os endereços IP dos dispositivos que enviam o formulário de contacto, durante um máximo de 15 minutos. Não são gravados numa base de dados nem num ficheiro.'] },
+      { h: 'Estado no Discord', p: ['O site pode mostrar se o Nexify está online no Discord. Trata-se apenas de informação sobre o Nexify, obtida pelo servidor do site junto do serviço Lanyard; o seu navegador não contacta o Lanyard e não são partilhados dados sobre si.'] },
       { h: 'Cookies', p: ['Este site utiliza um único cookie funcional para memorizar o idioma escolhido. Consulte a <a href="/cookies">página de cookies</a>.'] },
       { h: 'Ligações externas', p: ['Este site contém ligações para sites externos, como o YouTube, o X e o Fortnite Tracker. Esses sites têm as suas próprias políticas de privacidade, que se aplicam quando os visita.'] },
       { h: 'Os seus direitos', p: ['Dependendo do local onde vive, a legislação de proteção de dados — como o Regulamento Geral sobre a Proteção de Dados (RGPD) da União Europeia, quando aplicável — pode conferir-lhe direitos sobre os seus dados pessoais, por exemplo pedir acesso, retificação ou apagamento.', 'Ainda não foi publicado um contacto próprio para esses pedidos. Será adicionado a esta página quando estiver disponível.'] },
@@ -429,7 +474,7 @@ const pt: Dict = {
       'Um endereço de contacto para questões de privacidade.',
     ],
     sections: [
-      { h: 'Quando o cookie é definido', p: ['O cookie de idioma só é definido quando escolhe um idioma no seletor de idioma ou abre uma ligação que seleciona um idioma. Se nunca o fizer, não é definido nenhum cookie e o site é apresentado em inglês.'] },
+      { h: 'Quando o cookie é definido', p: ['O cookie de idioma só é definido quando escolhe um idioma — no seletor de idioma, numa ligação que seleciona um idioma ou ao responder à sugestão de idioma («Ver em …» ou «Não, obrigado»). Se nunca o fizer, não é definido nenhum cookie e o site é apresentado em inglês.'] },
       { h: 'Sem cookies de rastreamento', p: ['Este site não utiliza cookies de análise, de publicidade ou de rastreamento, e não carrega conteúdos de terceiros que definam cookies.'] },
       { h: 'Apagar o cookie', p: ['Pode apagar os cookies a qualquer momento nas definições do seu navegador. O site volta simplesmente a ser apresentado em inglês.'] },
       { h: 'Sites externos', p: ['Quando segue uma ligação para um site externo, como o YouTube, o X ou o Fortnite Tracker, esse site pode definir os seus próprios cookies, de acordo com a sua própria política.'] },

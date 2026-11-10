@@ -30,6 +30,27 @@ npm run build && npm start
 | `src/lib/config.ts` | Public email and social links, each set in one place |
 | `src/lib/contact/` | Validation, spam protection, mailer |
 
+## Rendering
+
+Every page is **statically generated per language** under `src/app/[lang]/` (`generateStaticParams`). `src/proxy.ts` keeps the URLs clean: it picks the language (`?lang=` > cookie > English) and rewrites `/about` to `/nl/about` internally. A direct `/nl/…` URL redirects to the clean one. Only `/contact` is rendered per request, because its anti-spam token must be fresh.
+
+Because the pages are static, the CSP is a static header (`next.config.ts`) and allows Next's inline bootstrap scripts.
+
+## Managing content
+
+| What | Where |
+|---|---|
+| Free agent / signed status | `status` in `src/lib/config.ts`. One switch updates every badge and status text |
+| Live Discord status | `DISCORD_USER_ID` in `src/lib/config.ts` (or as an env var). Also join the Lanyard Discord once. The card stays hidden while it's empty |
+| Testimonials | `src/lib/testimonials.ts`. Real quotes only, shared with permission |
+| Updates log | `src/lib/updates.ts`, shown on `/nexify-dev` |
+| Avatar | `public/img/avatar.webp` |
+| Media kit | `/media-kit`. Run `npm run build:mediakit` after `npm run build` to regenerate the PDFs in `public/media-kit/` |
+
+The site also includes:
+- a search palette (**Ctrl/⌘+K** or `/`)
+- a one-time language suggestion for Dutch or Portuguese browsers, which never switches the language by itself
+
 ## Animations
 
 Motion handles:
@@ -76,6 +97,7 @@ npm run build:cv
 ## Other assets
 
 - `npm run build:og` rebuilds the share image (`public/og-image.png`).
+- `npm run build:clouds` rebuilds the soft cloud textures (`public/img/clouds-*.webp`).
 
 ## Checks
 

@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { stripLang } from '@/lib/path';
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, LayoutGroup } from 'motion/react';
+import { AnimatePresence, m, LayoutGroup } from 'motion/react';
 import { LogoMark } from '../ui/Logo';
 import { Icon } from '../ui/Icon';
 import type { Lang } from '@/lib/config';
+import { SearchButton } from './CommandPalette';
 
 export interface NavItem { href: string; label: string }
 export interface LangItem { code: Lang; short: string; name: string; locale: string }
@@ -27,7 +29,7 @@ function LangSwitch({ langs, current, pathname, label, currentLabel, id }: {
           aria-current={l.code === current ? 'true' : undefined}
           data-lang={l.code}
         >
-          {l.code === current && <motion.span layoutId={`${id}-pill`} className="lang__pill" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
+          {l.code === current && <m.span layoutId={`${id}-pill`} className="lang__pill" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
           <span aria-hidden="true" className="lang__txt">{l.short}</span>
           <span className="sr-only">{l.name}{l.code === current ? ` (${currentLabel})` : ''}</span>
         </a>
@@ -40,9 +42,9 @@ export function Header({ nav, langs, lang, labels }: {
   nav: NavItem[];
   langs: LangItem[];
   lang: Lang;
-  labels: { home: string; mainNav: string; menuOpen: string; menuClose: string; language: string; languageCurrent: string; hireMe: string };
+  labels: { home: string; mainNav: string; menuOpen: string; menuClose: string; language: string; languageCurrent: string; hireMe: string; search: string };
 }) {
-  const pathname = usePathname() || '/';
+  const pathname = stripLang(usePathname());
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -88,7 +90,7 @@ export function Header({ nav, langs, lang, labels }: {
               {nav.map((item) => (
                 <li key={item.href}>
                   <Link className="hdr__link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                    {isActive(item.href) && <motion.span layoutId="nav-pill" className="hdr__pill" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
+                    {isActive(item.href) && <m.span layoutId="nav-pill" className="hdr__pill" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
                     <span className="hdr__txt">{item.label}</span>
                   </Link>
                 </li>
@@ -96,6 +98,7 @@ export function Header({ nav, langs, lang, labels }: {
             </ul>
           </nav>
         </LayoutGroup>
+        <SearchButton label={labels.search} />
         <div className="hdr__actions">
           <LangSwitch langs={langs} current={lang} pathname={pathname} label={labels.language} currentLabel={labels.languageCurrent} id="lang-desktop" />
           <Link className="btn btn--primary btn--sm" href="/contact" data-magnetic="" aria-current={pathname === '/contact' ? 'page' : undefined}>
@@ -117,7 +120,7 @@ export function Header({ nav, langs, lang, labels }: {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             id="mobile-menu"
             ref={panelRef}
             className="mmenu"
@@ -129,7 +132,7 @@ export function Header({ nav, langs, lang, labels }: {
             <nav aria-label={labels.mainNav}>
               <ul className="mmenu__list">
                 {nav.map((item, i) => (
-                  <motion.li
+                  <m.li
                     key={item.href}
                     initial={{ opacity: 0, y: 28 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -140,15 +143,15 @@ export function Header({ nav, langs, lang, labels }: {
                       <span className="mmenu__num" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
                       <span>{item.label}</span>
                     </Link>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ul>
             </nav>
-            <motion.div className="mmenu__foot" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.45 } }} exit={{ opacity: 0 }}>
+            <m.div className="mmenu__foot" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.45 } }} exit={{ opacity: 0 }}>
               <LangSwitch langs={langs} current={lang} pathname={pathname} label={labels.language} currentLabel={labels.languageCurrent} id="lang-mobile" />
               <Link className="btn btn--primary" href="/contact"><span>{labels.hireMe}</span><Icon name="arrow" className="btn__end" /></Link>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

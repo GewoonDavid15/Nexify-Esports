@@ -6,6 +6,26 @@ const nl: Dict = {
   locale: 'nl',
 
   common: {
+    search: 'Zoeken',
+    searchPh: 'Zoek pagina’s en acties…',
+    searchEmpty: 'Geen resultaten',
+    searchPages: 'Pagina’s',
+    searchActions: 'Acties',
+    searchLanguage: 'Taal',
+    sendEmail: 'Stuur een e-mail',
+    openOn: 'Open {name}',
+    searchClose: 'Zoeken sluiten',
+    langSuggest: 'Deze site is ook beschikbaar in het Nederlands.',
+    langSuggestYes: 'Bekijk in het Nederlands',
+    langSuggestNo: 'Nee, bedankt',
+    discordLabel: 'Discord-status',
+    discordOnline: 'Online op Discord',
+    discordIdle: 'Afwezig op Discord',
+    discordDnd: 'Bezet op Discord',
+    discordOffline: 'Offline op Discord',
+    discordPlaying: 'Speelt {name}',
+    avatarAlt: 'Getekend portret van Nexify',
+    availabilitySigned: '<strong>Getekend</strong> — {role} bij {team}',
     moreInfo: 'Meer info',
     letsTalk: 'Laten we praten',
     skip: 'Direct naar de inhoud',
@@ -42,6 +62,7 @@ const nl: Dict = {
   },
 
   nav: {
+    mediaKit: 'Mediakit',
     home: 'Home',
     about: 'Over mij',
     achievements: 'Ervaring',
@@ -134,10 +155,12 @@ const nl: Dict = {
     terms: { title: 'Gebruiksvoorwaarden', description: 'Voorwaarden voor het gebruik van deze website. Informatief concept.' },
     cookies: { title: 'Cookies', description: 'De enige functionele cookie die deze website gebruikt, en waarom.' },
     disclaimer: { title: 'Disclaimer', description: 'Belangrijke opmerkingen over de informatie op deze website.' },
+    mediaKit: { title: 'Mediakit', description: 'De mediakit van Nexify: profiel, ervaring, hoogtepunten, vaardigheden en contact op één pagina.' },
     notFound: { title: 'Pagina niet gevonden', description: 'Deze pagina bestaat niet.' },
   },
 
   home: {
+    statusTextSigned: 'Momenteel {role} bij {team} · Tijdzone: CET (Nederland).',
     heroLine: 'Hoi, ik ben Nexify.',
     what: { badge: 'Wat ik doe', title: 'Speler, manager, *bouwer*', lead: 'Competitief Fortnite, social media voor esports en de techniek erachter — allemaal van één persoon.', labels: ['Controller · pc', 'Vertex · NovaRise · Aether · Haze', 'BDFD · OBS · Lua · Python'] },
     hl: { badge: 'Hoogtepunten', title: 'Van oprichter tot *free agent*', lead: 'Hoogtepunten uit mijn officiële cv.' },
@@ -362,6 +385,27 @@ const nl: Dict = {
     backText: 'Mijn ervaring, vaardigheden en diensten staan op de hoofdpagina’s.',
   },
 
+  mediaKit: {
+    eyebrow: 'Mediakit',
+    title: 'Mediakit',
+    lead: 'Alles over Nexify op één pagina — klaar om met je team te delen.',
+    download: 'Pdf downloaden',
+    print: 'Afdrukken',
+    profile: 'Profiel',
+    experience: 'Ervaring',
+    highlights: 'Hoogtepunten',
+    skills: 'Vaardigheden',
+    tools: 'Tools',
+    languages: 'Talen',
+    contact: 'Contact',
+    note: 'Gebaseerd op het officiële cv van Nexify.',
+  },
+
+  updates: {
+    title: 'Updates',
+    empty: 'Nog geen updates.',
+  },
+
   legal: {
     draftTitle: 'Informatief concept',
     draftText: 'Deze pagina is een onvolledig concept en is niet beoordeeld door een juridisch professional. De juridische identiteit van de eigenaar en een apart privacycontact zijn nog niet opgegeven. De pagina beweert niet dat deze website aan een bepaalde wet voldoet.',
@@ -377,14 +421,15 @@ const nl: Dict = {
     missing: [
       'De juridische naam van de persoon die verantwoordelijk is voor deze website.',
       'Een contactadres voor privacyvragen en -verzoeken.',
-      'Welke hostingprovider en welke e-maildienst worden gebruikt.',
+      'Welke e-maildienst voor het contactformulier wordt gebruikt.',
       'Hoe lang e-mails via het contactformulier worden bewaard nadat ze zijn ontvangen.',
     ],
     sections: [
       { h: 'Wie deze website beheert', p: ['Deze website is het persoonlijke portfolio van Nexify. Hij wordt beheerd door een particulier, niet door een bedrijf. De juridische naam van de eigenaar en een privacycontact zijn nog niet toegevoegd.'] },
       { h: 'Wat deze website niet doet', list: ['Hij gebruikt geen analytics.', 'Hij gebruikt geen advertentie- of trackingcookies.', 'Hij sluit geen content van derden in, zoals video’s of social-mediawidgets.', 'Lettertypen worden door deze website zelf geleverd, niet door een externe dienst.'] },
       { h: 'Contactformulier', p: ['Als je het contactformulier gebruikt, worden de naam, het e-mailadres, het onderwerp en het bericht dat je invult via een e-maildienst als e-mail naar de inbox van Nexify gestuurd. Je e-mailadres wordt gebruikt om je te kunnen antwoorden.', 'De website zelf slaat je bericht niet op in een database, en de serverlogs registreren de inhoud van berichten niet. De e-maildienst en de inbox kunnen kopieën van de e-mail bewaren; hoe lang e-mails worden bewaard, is nog niet vastgesteld.'] },
-      { h: 'Technische gegevens', p: ['Als je een website bezoekt, stuurt je browser technische informatie, zoals je IP-adres. De hostingprovider kan eigen technische logs bijhouden.', 'Om spam te voorkomen, houdt de server de IP-adressen van apparaten die het contactformulier versturen maximaal 15 minuten in het werkgeheugen. Ze worden niet in een database of bestand opgeslagen.'] },
+      { h: 'Technische gegevens', p: ['Als je een website bezoekt, stuurt je browser technische informatie, zoals je IP-adres. Deze website wordt gehost door Vercel Inc., dat volgens zijn eigen privacybeleid technische logs kan bijhouden.', 'Om spam te voorkomen, houdt de server de IP-adressen van apparaten die het contactformulier versturen maximaal 15 minuten in het werkgeheugen. Ze worden niet in een database of bestand opgeslagen.'] },
+      { h: 'Discord-status', p: ['De website kan tonen of Nexify online is op Discord. Dat is alleen informatie over Nexify. De server van de website haalt die op bij de dienst Lanyard; je browser maakt geen contact met Lanyard en er worden geen gegevens over jou gedeeld.'] },
       { h: 'Cookies', p: ['Deze website gebruikt één functionele cookie om je taalkeuze te onthouden. Zie de <a href="/cookies">cookiepagina</a>.'] },
       { h: 'Externe links', p: ['Deze website linkt naar externe sites, zoals YouTube, X en Fortnite Tracker. Die sites hebben hun eigen privacybeleid, dat geldt wanneer je ze bezoekt.'] },
       { h: 'Je rechten', p: ['Afhankelijk van waar je woont, kunnen privacywetten — zoals de Algemene Verordening Gegevensbescherming (AVG) van de Europese Unie, waar die van toepassing is — je rechten geven over je persoonsgegevens, bijvoorbeeld om inzage, correctie of verwijdering te vragen.', 'Er is nog geen apart privacycontact voor zulke verzoeken gepubliceerd. Het wordt op deze pagina toegevoegd zodra het beschikbaar is.'] },
@@ -429,7 +474,7 @@ const nl: Dict = {
       'Een contactadres voor privacyvragen.',
     ],
     sections: [
-      { h: 'Wanneer de cookie wordt geplaatst', p: ['De taalcookie wordt alleen geplaatst als je een taal kiest met de taalkeuze of een link opent die een taal kiest. Doe je dat nooit, dan wordt er geen cookie geplaatst en zie je de website in het Engels.'] },
+      { h: 'Wanneer de cookie wordt geplaatst', p: ['De taalcookie wordt alleen geplaatst als je een taal kiest — met de taalkeuze, via een link die een taal kiest, of door op de taalsuggestie te antwoorden (“Bekijk in …” of “Nee, bedankt”). Doe je dat nooit, dan wordt er geen cookie geplaatst en zie je de website in het Engels.'] },
       { h: 'Geen trackingcookies', p: ['Deze website gebruikt geen analytische, advertentie- of trackingcookies en laadt geen content van derden die cookies plaatst.'] },
       { h: 'De cookie verwijderen', p: ['Je kunt cookies op elk moment verwijderen via de instellingen van je browser. De website wordt dan gewoon weer in het Engels getoond.'] },
       { h: 'Externe websites', p: ['Als je een link naar een externe website volgt, zoals YouTube, X of Fortnite Tracker, kan die website eigen cookies plaatsen volgens zijn eigen beleid.'] },

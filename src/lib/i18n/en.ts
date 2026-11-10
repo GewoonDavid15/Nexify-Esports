@@ -6,6 +6,26 @@ const en = {
   locale: 'en',
 
   common: {
+    search: 'Search',
+    searchPh: 'Search pages and actions…',
+    searchEmpty: 'No results',
+    searchPages: 'Pages',
+    searchActions: 'Actions',
+    searchLanguage: 'Language',
+    sendEmail: 'Send an email',
+    openOn: 'Open {name}',
+    searchClose: 'Close search',
+    langSuggest: 'This site is also available in English.',
+    langSuggestYes: 'View in English',
+    langSuggestNo: 'No thanks',
+    discordLabel: 'Discord status',
+    discordOnline: 'Online on Discord',
+    discordIdle: 'Away on Discord',
+    discordDnd: 'Busy on Discord',
+    discordOffline: 'Offline on Discord',
+    discordPlaying: 'Playing {name}',
+    avatarAlt: 'Illustrated portrait of Nexify',
+    availabilitySigned: '<strong>Signed</strong> — {role} at {team}',
     moreInfo: 'More info',
     letsTalk: 'Let’s talk',
     skip: 'Skip to main content',
@@ -42,6 +62,7 @@ const en = {
   },
 
   nav: {
+    mediaKit: 'Media kit',
     home: 'Home',
     about: 'About',
     achievements: 'Experience',
@@ -134,10 +155,12 @@ const en = {
     terms: { title: 'Terms of Use', description: 'Terms for using this website. Informational draft.' },
     cookies: { title: 'Cookies', description: 'The single functional cookie this website uses, and why.' },
     disclaimer: { title: 'Disclaimer', description: 'Important notes about the information on this website.' },
+    mediaKit: { title: 'Media kit', description: 'Nexify’s media kit: profile, experience, highlights, skills and contact on one page.' },
     notFound: { title: 'Page not found', description: 'This page doesn’t exist.' },
   },
 
   home: {
+    statusTextSigned: 'Currently {role} at {team} · Timezone: CET (Netherlands).',
     heroLine: 'Hi, I’m Nexify.',
     what: { badge: 'What I do', title: 'Player, manager, *builder*', lead: 'Competitive Fortnite, esports social media and the tech behind it — all from one person.', labels: ['Controller · PC', 'Vertex · NovaRise · Aether · Haze', 'BDFD · OBS · Lua · Python'] },
     hl: { badge: 'Highlights', title: 'From founder to *free agent*', lead: 'Highlights from my official resume.' },
@@ -362,6 +385,27 @@ const en = {
     backText: 'My experience, skills and services are on the main pages.',
   },
 
+  mediaKit: {
+    eyebrow: 'Media kit',
+    title: 'Media kit',
+    lead: 'Everything about Nexify on one page — ready to share with your team.',
+    download: 'Download PDF',
+    print: 'Print',
+    profile: 'Profile',
+    experience: 'Experience',
+    highlights: 'Highlights',
+    skills: 'Skills',
+    tools: 'Tools',
+    languages: 'Languages',
+    contact: 'Contact',
+    note: 'Based on Nexify’s official resume.',
+  },
+
+  updates: {
+    title: 'Updates',
+    empty: 'No updates yet.',
+  },
+
   legal: {
     draftTitle: 'Informational draft',
     draftText: 'This page is an incomplete draft and has not been reviewed by a legal professional. The site owner’s legal identity and a dedicated privacy contact have not been provided yet. It does not claim that this website complies with any particular law.',
@@ -377,14 +421,15 @@ const en = {
     missing: [
       'The legal name of the person responsible for this website.',
       'A contact address for privacy questions and requests.',
-      'Which hosting provider and email delivery service are used.',
+      'Which email delivery service is used for the contact form.',
       'How long contact-form emails are kept after they arrive.',
     ],
     sections: [
       { h: 'Who runs this website', p: ['This website is the personal portfolio of Nexify. It is run by a private individual, not a company. The owner’s legal name and a privacy contact have not been added yet.'] },
       { h: 'What this website does not do', list: ['It does not use analytics.', 'It does not use advertising or tracking cookies.', 'It does not embed third-party content such as videos or social media widgets.', 'Fonts are served from this website itself, not from an external font service.'] },
       { h: 'Contact form', p: ['If you use the contact form, the name, email address, subject and message you enter are sent as an email to Nexify’s inbox through an email delivery service. Your email address is used so I can reply to you.', 'The website itself does not store your message in a database, and its server logs do not record the contents of messages. The email delivery service and the email inbox may keep copies of the email; how long emails are kept has not been defined yet.'] },
-      { h: 'Technical data', p: ['When you visit any website, your browser sends technical information such as your IP address. The hosting provider may keep its own technical logs.', 'To prevent spam, the server briefly keeps the IP addresses of devices that submit the contact form in its working memory, for up to 15 minutes. These are not written to a database or file.'] },
+      { h: 'Technical data', p: ['When you visit any website, your browser sends technical information such as your IP address. This website is hosted by Vercel Inc., which may keep its own technical logs under its own privacy policy.', 'To prevent spam, the server briefly keeps the IP addresses of devices that submit the contact form in its working memory, for up to 15 minutes. These are not written to a database or file.'] },
+      { h: 'Discord status', p: ['The website may show whether Nexify is online on Discord. This is information about Nexify only. It is fetched by the website’s server from the Lanyard service; your browser does not contact Lanyard and no data about you is shared.'] },
       { h: 'Cookies', p: ['This website uses a single functional cookie to remember your language choice. See the <a href="/cookies">cookie page</a>.'] },
       { h: 'External links', p: ['This website links to external sites such as YouTube, X and Fortnite Tracker. Those sites have their own privacy policies, which apply when you visit them.'] },
       { h: 'Your rights', p: ['Depending on where you live, data protection laws — such as the European Union’s General Data Protection Regulation (GDPR), where it applies — may give you rights over your personal data, for example to request access, correction or deletion.', 'A dedicated privacy contact for such requests has not been published yet. It will be added to this page once it is available.'] },
@@ -429,7 +474,7 @@ const en = {
       'A contact address for privacy questions.',
     ],
     sections: [
-      { h: 'When the cookie is set', p: ['The language cookie is only set when you choose a language with the language selector or open a link that selects a language. If you never do, no cookie is set and the website is shown in English.'] },
+      { h: 'When the cookie is set', p: ['The language cookie is only set when you choose a language — with the language selector, a link that selects a language, or by answering the language suggestion (“View in …” or “No thanks”). If you never do, no cookie is set and the website is shown in English.'] },
       { h: 'No tracking cookies', p: ['This website does not use analytics, advertising or tracking cookies, and does not load third-party content that sets cookies.'] },
       { h: 'Removing the cookie', p: ['You can delete cookies at any time in your browser settings. The website will then simply be shown in English again.'] },
       { h: 'External websites', p: ['When you follow a link to an external website such as YouTube, X or Fortnite Tracker, that website may set its own cookies under its own policy.'] },

@@ -2,12 +2,12 @@ import 'server-only';
 import type { Metadata } from 'next';
 import { LANGS, site, type Lang } from './config';
 import { locales, type Dict } from './i18n';
-import { getBaseUrl, getI18n } from './i18n/server';
+import { getBaseUrl, i18nFromParams, type LangParams } from './i18n/server';
 
 /** Title, description, canonical + hreflang alternates and social cards for a page. */
-export async function pageMeta(key: keyof Dict['meta'], path: string, { noindex = false } = {}): Promise<Metadata> {
-  const { lang, d } = await getI18n();
-  const base = await getBaseUrl();
+export async function pageMeta(params: LangParams['params'], key: keyof Dict['meta'], path: string, { noindex = false } = {}): Promise<Metadata> {
+  const { lang, d } = await i18nFromParams(params);
+  const base = getBaseUrl();
   const m = d.meta[key];
   const title = key === 'home' ? m.title : `${m.title} · ${site.name}`;
   const url = (code: Lang) => `${base}${path}${code === 'en' ? '' : `?lang=${code}`}`;

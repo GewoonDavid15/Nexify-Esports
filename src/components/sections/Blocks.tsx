@@ -5,6 +5,7 @@ import { Icon, type IconName } from '../ui/Icon';
 import { Button } from '../ui/Button';
 import { Rich } from '../ui/Rich';
 import { Counter } from '../motion/Counter';
+import { availability } from '@/lib/status';
 
 /** "*word*" is rendered in the accent colour. Without markers, the last word is. */
 export function Accent({ text }: { text: string }) {
@@ -21,10 +22,12 @@ export function Badge({ children, live = false }: { children: ReactNode; live?: 
   return <span className={`badge${live ? ' badge--live' : ''}`}>{live ? <span className="pulse" aria-hidden /> : null}{children}</span>;
 }
 
-export function PageHero({ eyebrow, title, lead, actions, extra }: { eyebrow: string; title: string; lead?: string; actions?: ReactNode; extra?: ReactNode }) {
+export function PageHero({ eyebrow, title, lead, actions, extra, top }: { eyebrow: string; title: string; lead?: string; actions?: ReactNode; extra?: ReactNode; top?: ReactNode }) {
   return (
     <section className="phero" aria-labelledby="page-title">
+      <div className="phero__clouds" aria-hidden />
       <div className="wrap phero__inner">
+        {top ? <div className="phero__top rise" style={{ '--d': 0 } as CSSProperties}>{top}</div> : null}
         <div className="rise" style={{ '--d': 0 } as CSSProperties}><Badge>{eyebrow}</Badge></div>
         <h1 id="page-title" className="phero__title rise" style={{ '--d': 1 } as CSSProperties}><Accent text={title} /></h1>
         {lead ? <p className="phero__lead rise" style={{ '--d': 2 } as CSSProperties}>{lead}</p> : null}
@@ -105,6 +108,7 @@ export function CtaBand({ d, title, text, secondary }: { d: Dict; title: string;
     <section className="sec" aria-labelledby="cta-title">
       <div className="wrap">
         <div className="cta" data-reveal="" data-spot="">
+          <span className="cta__clouds" aria-hidden />
           <h2 className="cta__title" id="cta-title"><Accent text={title} /></h2>
           <p className="cta__text">{text}</p>
           <div className="actions actions--center">
@@ -130,7 +134,8 @@ export function EmptyState({ icon, title, text, hint, actions }: { icon: IconNam
 }
 
 export function AvailabilityBadge({ d }: { d: Dict }) {
-  return <p className="avail" role="note"><span className="pulse" aria-hidden /><Rich html={d.common.availability} /></p>;
+  const a = availability(d);
+  return <p className={`avail${a.free ? '' : ' avail--signed'}`} role="note"><span className="pulse" aria-hidden /><Rich html={a.badge} /></p>;
 }
 
 /** Legacy helper kept for the dev page title. */

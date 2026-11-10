@@ -1,8 +1,8 @@
 'use client';
 
 import { useActionState, useEffect, useRef, useState, type FormEvent } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
-import { submitContact, type ContactState } from '@/app/contact/actions';
+import { AnimatePresence, m } from 'motion/react';
+import { submitContact, type ContactState } from '@/lib/contact/actions';
 import { LIMITS, validateField, type Field, type FieldError } from '@/lib/contact/validate';
 import { fmt } from '@/lib/i18n/fmt';
 import type { Dict } from '@/lib/i18n/en';
@@ -74,9 +74,9 @@ export function ContactForm({ t, token, configured }: { t: Labels; token: string
         <p className="field__err" id={`f-${f}-err`}>
           <AnimatePresence initial={false}>
             {err ? (
-              <motion.span key={err.key} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+              <m.span key={err.key} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <Icon name="alert" />{msg(err)}
-              </motion.span>
+              </m.span>
             ) : null}
           </AnimatePresence>
         </p>
@@ -95,16 +95,16 @@ export function ContactForm({ t, token, configured }: { t: Labels; token: string
       <div ref={statusRef} tabIndex={-1} className="fstatus-wrap" role={status?.tone === 'error' ? 'alert' : 'status'}>
         <AnimatePresence mode="wait">
           {status ? (
-            <motion.div key={`${state.nonce}`} className={`fstatus fstatus--${status.tone}`}
+            <m.div key={`${state.nonce}`} className={`fstatus fstatus--${status.tone}`}
               initial={{ opacity: 0, y: -8, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }}>
               {status.tone === 'success' ? (
                 <svg className="icon fstatus__check" viewBox="0 0 24 24" aria-hidden>
-                  <motion.path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"
+                  <m.path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"
                     initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6, delay: 0.15 }} />
                 </svg>
               ) : <Icon name="alert" />}
               <div><p className="fstatus__title">{status.title}</p><p>{status.text}</p></div>
-            </motion.div>
+            </m.div>
           ) : null}
         </AnimatePresence>
       </div>

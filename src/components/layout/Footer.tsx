@@ -7,7 +7,7 @@ import { Socials } from '../sections/Socials';
 
 const groups = (d: Dict) => [
   { title: d.common.footerPages, links: [['/', d.nav.home], ['/about', d.nav.about], ['/achievements', d.nav.achievements], ['/resume', d.nav.resume], ['/skills', d.nav.skills], ['/services', d.nav.services]] },
-  { title: d.common.footerMore, links: [['/portfolio', d.nav.portfolio], ['/testimonials', d.nav.testimonials], ['/nexify-dev', d.nav.nexifyDev], ['/contact', d.nav.contact]] },
+  { title: d.common.footerMore, links: [['/portfolio', d.nav.portfolio], ['/testimonials', d.nav.testimonials], ['/nexify-dev', d.nav.nexifyDev], ['/media-kit', d.nav.mediaKit], ['/contact', d.nav.contact]] },
   { title: d.common.footerLegal, links: [['/privacy', d.nav.privacy], ['/terms', d.nav.terms], ['/cookies', d.nav.cookies], ['/disclaimer', d.nav.disclaimer]] },
 ];
 

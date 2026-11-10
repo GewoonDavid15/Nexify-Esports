@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, useScroll, useSpring, AnimatePresence, useReducedMotion } from 'motion/react';
+import { m, useScroll, useSpring, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Icon } from '../ui/Icon';
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
-  return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden />;
+  return <m.div className="scroll-progress" style={{ scaleX }} aria-hidden />;
 }
 
 export function BackToTop({ label }: { label: string }) {
@@ -22,7 +22,7 @@ export function BackToTop({ label }: { label: string }) {
   return (
     <AnimatePresence>
       {show && (
-        <motion.button
+        <m.button
           type="button"
           className="to-top"
           aria-label={label}
@@ -37,7 +37,7 @@ export function BackToTop({ label }: { label: string }) {
           }}
         >
           <Icon name="arrow" className="to-top__icon" />
-        </motion.button>
+        </m.button>
       )}
     </AnimatePresence>
   );
