@@ -69,3 +69,16 @@ npm run check        # i18n parity + server tests (routes, language, contact for
 npm run test:e2e     # Playwright: all routes × languages × desktop/tablet/mobile, console errors,
                      # overflow, broken links, mobile menu, language switch, CV download, reduced motion
 ```
+
+## Deploying to Vercel
+
+The repo is ready for Vercel with no build step:
+
+- `public/` is served as static files (CSS, JS, fonts, CV).
+- Every other request is rewritten to `api/index.js`, which exports the Express app as a serverless function (see `vercel.json`).
+
+Set the contact-form variables (see above) under **Project → Settings → Environment Variables**, then redeploy.
+
+On Vercel, the token signing key is derived from the provider secret if `FORM_SECRET` isn't set, so it stays the same across function instances. The rate limiter is per instance, so it's a best-effort limit there.
+
+If you upgrade the font packages, run `node scripts/copy-fonts.mjs` to refresh `public/fonts`.

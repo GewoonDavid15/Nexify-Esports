@@ -38,6 +38,8 @@ const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 export function createApp({ env = process.env, rateLimiter = createRateLimiter({ max: 8 }) } = {}) {
   const app = express();
   app.disable('x-powered-by');
+  // Vercel always sits behind its own proxy, so trust it for the client IP.
+  if (env.VERCEL && !env.TRUST_PROXY) app.set('trust proxy', true);
   if (env.TRUST_PROXY) app.set('trust proxy', /^\d+$/.test(env.TRUST_PROXY) ? Number(env.TRUST_PROXY) : env.TRUST_PROXY);
 
   // Security headers. No inline scripts or third-party origins are used anywhere.
@@ -54,8 +56,7 @@ export function createApp({ env = process.env, rateLimiter = createRateLimiter({
 
   const staticOpts = { maxAge: '7d', fallthrough: true };
   app.use(express.static(path.join(__dirname, 'public'), { ...staticOpts, maxAge: '1h' }));
-  app.use('/fonts/sora', express.static(path.join(__dirname, 'node_modules/@fontsource-variable/sora'), staticOpts));
-  app.use('/fonts/inter', express.static(path.join(__dirname, 'node_modules/@fontsource-variable/inter'), staticOpts));
+  app.use('/fonts', express.static(path.join(__dirname, 'public/fonts'), staticOpts));
 
   const readCookieLang = (req) => {
     const m = /(?:^|;\s*)nexify_lang=([a-z]{2})/.exec(req.headers.cookie || '');

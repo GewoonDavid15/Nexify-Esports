@@ -4,7 +4,12 @@ import crypto from 'node:crypto';
 // that arrive implausibly fast (bots) or long after the page was loaded.
 // FORM_SECRET is optional; without it a random per-process secret is used,
 // which simply means open forms expire when the server restarts.
-const SECRET = process.env.FORM_SECRET || crypto.randomBytes(32).toString('hex');
+// On serverless hosts (several instances) the key must be stable, so without
+// FORM_SECRET it is derived from the provider secret, which every instance shares.
+const providerSecret = process.env.RESEND_API_KEY || process.env.SMTP_PASS;
+const SECRET = process.env.FORM_SECRET
+  || (providerSecret && crypto.createHash('sha256').update(`nexify-form-token:${providerSecret}`).digest('hex'))
+  || crypto.randomBytes(32).toString('hex');
 export const MIN_FILL_MS = 3000;
 export const MAX_AGE_MS = 2 * 60 * 60 * 1000;
 
