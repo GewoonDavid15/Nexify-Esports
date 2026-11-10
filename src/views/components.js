@@ -6,8 +6,9 @@ export function availabilityBanner(t) {
   return `<div class="availability" role="note"><span class="pulse" aria-hidden="true"></span><span>${t('common.availability')}</span></div>`;
 }
 
-export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id = 'page-title' }) {
+export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id = 'page-title', ghost }) {
   return `<section class="page-hero" aria-labelledby="${id}">
+    <span class="page-hero__ghost" aria-hidden="true">${ghost ?? eyebrow}</span>
     <div class="container">
       <p class="eyebrow reveal">${eyebrow}</p>
       <h1 id="${id}" class="page-title reveal">${title}</h1>

@@ -35,6 +35,7 @@ export default {
     availabilityShort: 'Free Agent',
     draftBadge: 'Draft',
     selfReported: 'Self-described — not independently verified',
+    backToTop: 'Back to top',
     external: 'External link',
   },
 

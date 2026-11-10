@@ -78,7 +78,9 @@ for (const vp of viewports) {
   // Language switch keeps current page
   await toggle.click();
   await page.locator('#site-nav [data-lang="nl"]').click();
-  await page.waitForURL(`${base}/skills`);
+  // The switch animates the pill briefly before navigating.
+  await page.waitForFunction(() => document.documentElement.lang === 'nl', null, { timeout: 5000 }).catch(() => {});
+  if (!page.url().endsWith('/skills')) fail(`language switch left the page: ${page.url()}`);
   if ((await page.getAttribute('html', 'lang')) !== 'nl') fail('language switch did not apply NL');
   await page.reload();
   if ((await page.getAttribute('html', 'lang')) !== 'nl') fail('language not remembered after reload');

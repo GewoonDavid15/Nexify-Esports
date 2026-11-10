@@ -24,15 +24,18 @@ export function socialLinks(t, { compact = false } = {}) {
   return `<ul class="socials${compact ? ' socials--compact' : ''}">${socials.map((s) => {
     if (s.copy) {
       return `<li><button type="button" class="social social--copy" data-copy="${esc(s.copy)}"
-        data-copied="${esc(t('common.copied'))}" data-failed="${esc(t('common.copyFailed', { value: s.copy }))}"
-        aria-label="${esc(compact ? `${s.label} — ${t('common.copyDiscord')}` : `${s.label} ${s.handle} — ${t('common.copyDiscord')}`)}">
-        ${icon(s.id)}<span class="social__text"><span class="social__label">${s.label}</span>${compact ? '' : `<span class="social__handle">${esc(s.handle)}</span>`}</span>${compact ? '' : icon('copy', { className: 'social__end' })}
+        data-copied="${esc(t('common.copied'))}" data-failed="${esc(t('common.copyFailed', { value: s.copy }))}">
+        ${icon(s.id)}<span class="social__text"><span class="social__label">${s.label}</span>${compact ? '' : `<span class="social__handle">${esc(s.handle)}</span>`}</span><span class="sr-only"> — ${t('common.copyDiscord')}</span>${compact ? '' : icon('copy', { className: 'social__end' })}
+        <span class="social__done" aria-hidden="true">${icon('check')}</span>
         </button></li>`;
     }
     return `<li><a class="social" href="${s.href}" target="_blank" rel="noopener noreferrer me">
       ${icon(s.id)}<span class="social__text"><span class="social__label">${compact && s.short ? s.short : s.label}</span>${compact ? '' : `<span class="social__handle">${esc(s.handle)}</span>`}</span>${compact ? '' : icon('external', { className: 'social__end' })}<span class="sr-only"> ${t('common.newTab')}</span></a></li>`;
   }).join('')}</ul>`;
 }
+
+/** Pages long enough to get a reading-progress bar. */
+const LONG_PAGES = ['resume', 'achievements', 'privacy', 'terms', 'cookies', 'disclaimer', 'services', 'about'];
 
 export function layout({ t, path, pageKey, body, bodyClass = '', origin = '', noindex = false }) {
   const d = t.dict;
@@ -82,6 +85,7 @@ ${alternates}
 </head>
 <body class="${bodyClass}">
 <a class="skip-link" href="#main">${t('common.skip')}</a>
+${LONG_PAGES.includes(pageKey) ? '<div class="scroll-progress" aria-hidden="true" data-scroll-progress><span></span></div>' : ''}
 <div class="sky" aria-hidden="true"><span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span><span class="cloud c5"></span><span class="grain"></span></div>
 
 <header class="site-header" data-header>
@@ -136,6 +140,7 @@ ${body}
     </div>
   </div>
 </footer>
+<a class="to-top" href="#main" data-to-top aria-label="${esc(t('common.backToTop'))}">${icon('arrow', { className: 'to-top__icon' })}</a>
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 </body>
 </html>`;

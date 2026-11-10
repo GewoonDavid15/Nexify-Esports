@@ -10,7 +10,7 @@ export default function home(t) {
       <div class="hero__copy">
         ${availabilityBanner(t)}
         <p class="eyebrow reveal">${t('home.eyebrow')}</p>
-        <h1 id="hero-title" class="hero__title reveal"><span class="gradient-text">${t('home.title')}</span></h1>
+        <h1 id="hero-title" class="hero__title"><span class="sr-only">${t('home.title')}</span><span class="hero__word" aria-hidden="true">${[...t('home.title')].map((c) => `<span class="char">${c}</span>`).join('')}</span></h1>
         <p class="lead reveal">${t('home.lead')}</p>
         <div class="actions reveal">
           ${button(t('common.hireMe'), '/contact', { iconName: 'mail' })}

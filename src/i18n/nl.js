@@ -34,6 +34,7 @@ export default {
     availabilityShort: 'Free agent',
     draftBadge: 'Concept',
     selfReported: 'Eigen omschrijving — niet onafhankelijk geverifieerd',
+    backToTop: 'Terug naar boven',
     external: 'Externe link',
   },
 
