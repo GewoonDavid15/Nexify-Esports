@@ -54,10 +54,11 @@
     var panel = header.querySelector('[data-nav]');
     var label = header.querySelector('[data-menu-label]');
     if (!toggle || !panel) return;
-    var mq = window.matchMedia('(max-width: 1140px)');
+    var mq = window.matchMedia('(max-width: 1120px)');
 
     function setOpen(open, focusToggle) {
       header.classList.toggle('is-open', open);
+      document.body.classList.toggle('menu-open', open && mq.matches);
       toggle.setAttribute('aria-expanded', String(open));
       var text = open ? toggle.getAttribute('data-label-close') : toggle.getAttribute('data-label-open');
       if (label) label.textContent = text;
@@ -77,6 +78,7 @@
       } else {
         panel.removeAttribute('inert');
         header.classList.remove('is-open');
+        document.body.classList.remove('menu-open');
         toggle.setAttribute('aria-expanded', 'false');
       }
     }
@@ -301,19 +303,11 @@
   }
 
 
-  // ---- Scroll-linked effects: progress bar, timeline, back-to-top, parallax ----
+  // ---- Scroll-linked effects: reading progress + back-to-top ----
   function initScrollEffects() {
     var progress = document.querySelector('[data-scroll-progress]');
     var toTop = document.querySelector('[data-to-top]');
-    var sky = document.querySelector('.sky');
-    var timelines = Array.prototype.slice.call(document.querySelectorAll('.timeline'));
-    var items = Array.prototype.slice.call(document.querySelectorAll('.timeline__item'));
     var ticking = false;
-
-    if (reduceMotion) {
-      timelines.forEach(function (tl) { tl.style.setProperty('--line', '1'); });
-      items.forEach(function (it) { it.classList.add('is-lit'); });
-    }
 
     function update() {
       ticking = false;
@@ -322,18 +316,6 @@
       var max = document.documentElement.scrollHeight - vh;
       if (progress) progress.style.setProperty('--progress', max > 0 ? Math.min(1, y / max).toFixed(4) : '0');
       if (toTop) toTop.classList.toggle('is-visible', y > vh * 1.2);
-      if (reduceMotion) return;
-      if (sky) sky.style.setProperty('--sy', String(Math.round(y)));
-      var mark = vh * 0.72;
-      timelines.forEach(function (tl) {
-        var r = tl.getBoundingClientRect();
-        var p = (mark - r.top) / r.height;
-        tl.style.setProperty('--line', Math.max(0, Math.min(1, p)).toFixed(4));
-      });
-      items.forEach(function (it) {
-        var dot = it.querySelector('.timeline__dot');
-        if (dot && dot.getBoundingClientRect().top < mark) it.classList.add('is-lit');
-      });
     }
     function onScroll() {
       if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
@@ -357,7 +339,7 @@
     if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     var pending = null;
     document.addEventListener('pointermove', function (e) {
-      var el = e.target.closest && e.target.closest('.card, .social, .timeline__card');
+      var el = e.target.closest && e.target.closest('.hairgrid__cell, .social, .record__row');
       if (!el) return;
       pending = { el: el, x: e.clientX, y: e.clientY };
       window.requestAnimationFrame(function () {
@@ -370,46 +352,18 @@
     }, { passive: true });
   }
 
-  // ---- Language switch: gliding pill ----
-  function initLangPill() {
-    Array.prototype.slice.call(document.querySelectorAll('.lang-switch')).forEach(function (sw) {
-      var list = sw.querySelector('ul');
-      var current = sw.querySelector('[aria-current="true"]');
-      if (!list || !current) return;
-      var pill = document.createElement('span');
-      pill.className = 'lang-pill';
-      pill.setAttribute('aria-hidden', 'true');
-      list.insertBefore(pill, list.firstChild);
-      sw.classList.add('has-lang-pill');
-      function moveTo(link, animate) {
-        if (!animate) pill.style.transition = 'none';
-        pill.style.width = link.offsetWidth + 'px';
-        pill.style.transform = 'translateX(' + (link.offsetLeft) + 'px)';
-        sw.querySelectorAll('.lang-link').forEach(function (l) { l.classList.toggle('is-on', l === link); });
-        if (!animate) { void pill.offsetWidth; pill.style.transition = ''; }
-      }
-      moveTo(current, false);
-      // Re-measure once fonts are ready / when the (mobile) menu becomes visible.
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveTo(sw.querySelector('.lang-link.is-on'), false); });
-      window.addEventListener('resize', function () { moveTo(sw.querySelector('.lang-link.is-on'), false); });
-      var toggle = document.querySelector('[data-menu-toggle]');
-      if (toggle) toggle.addEventListener('click', function () { setTimeout(function () { moveTo(sw.querySelector('.lang-link.is-on'), false); }, 20); });
-      sw.addEventListener('click', function (e) {
-        var link = e.target.closest('.lang-link');
-        if (!link || link === current || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-        if (reduceMotion) return; // navigate immediately
-        e.preventDefault();
-        moveTo(link, true);
-        setTimeout(function () { window.location.href = link.href; }, 260);
-      });
-    });
+  // Decorative cloud textures: load once the page itself is done.
+  function initClouds() {
+    var go = function () { doc.classList.add('clouds-ready'); };
+    if (document.readyState === 'complete') setTimeout(go, 50);
+    else window.addEventListener('load', function () { setTimeout(go, 50); });
   }
 
   ready(function () {
+    initClouds();
     initReveal();
     initScrollEffects();
     initSpotlight();
-    initLangPill();
     initHeader();
     initCopy();
     initContact();

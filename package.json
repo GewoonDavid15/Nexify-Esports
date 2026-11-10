@@ -16,11 +16,13 @@
     "test:e2e": "node scripts/e2e.mjs",
     "build:cv": "node scripts/build-cv.mjs",
     "build:og": "node scripts/build-og.mjs",
+    "build:clouds": "node scripts/build-clouds.mjs",
     "check": "npm run check:i18n && npm test"
   },
   "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
-    "@fontsource-variable/sora": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "express": "^4.22.3",
     "nodemailer": "^10.4.0"
   },

@@ -2,15 +2,17 @@ import { icon } from './icons.js';
 import { site } from '../config.js';
 import { experience } from '../resume.js';
 
+const pad = (n) => String(n).padStart(2, '0');
+
 export function availabilityBanner(t) {
-  return `<div class="availability" role="note"><span class="pulse" aria-hidden="true"></span><span>${t('common.availability')}</span></div>`;
+  return `<p class="availability" role="note"><span class="pulse" aria-hidden="true"></span><span>${t('common.availability')}</span></p>`;
 }
 
-export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id = 'page-title', ghost }) {
+/** Inner-page header: mono label, big title, lead, optional actions. */
+export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id = 'page-title' }) {
   return `<section class="page-hero" aria-labelledby="${id}">
-    <span class="page-hero__ghost" aria-hidden="true">${ghost ?? eyebrow}</span>
     <div class="container">
-      <p class="eyebrow reveal">${eyebrow}</p>
+      <p class="label label--accent reveal"><span class="label__tick" aria-hidden="true"></span>${eyebrow}</p>
       <h1 id="${id}" class="page-title reveal">${title}</h1>
       ${lead ? `<p class="lead reveal">${lead}</p>` : ''}
       ${actions ? `<div class="actions reveal">${actions}</div>` : ''}
@@ -19,8 +21,12 @@ export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id
   </section>`;
 }
 
-export function sectionHead(title, { lead = '', id } = {}) {
-  return `<div class="section-head reveal"><h2 class="section-title"${id ? ` id="${id}"` : ''}>${title}</h2>${lead ? `<p class="section-lead">${lead}</p>` : ''}</div>`;
+/** Section heading with an index number, e.g. "01  Explore". */
+export function sectionHead(title, { lead = '', id, num } = {}) {
+  return `<div class="sec-head reveal">
+    ${num ? `<span class="sec-head__num" aria-hidden="true">${pad(num)}</span>` : ''}
+    <div><h2 class="sec-title"${id ? ` id="${id}"` : ''}>${title}</h2>${lead ? `<p class="sec-lead">${lead}</p>` : ''}</div>
+  </div>`;
 }
 
 export function button(label, href, { variant = 'primary', iconName = 'arrow', attrs = '' } = {}) {
@@ -31,24 +37,34 @@ export function cvButton(t, variant = 'primary') {
   return `<a class="btn btn--${variant}" href="${site.cv.href}" download="${site.cv.fileName}" type="application/pdf">${icon('download')}<span>${t('common.downloadCv')}</span></a>`;
 }
 
-export function linkCard({ href, title, text, iconName }) {
-  return `<a class="card card--link reveal" href="${href}">
-    <span class="card__icon">${icon(iconName)}</span>
-    <span class="card__title">${title}</span>
-    <span class="card__text">${text}</span>
-    <span class="card__arrow">${icon('arrow')}</span>
-  </a>`;
+/** Large editorial link rows (used for "Explore"). */
+export function indexList(items) {
+  return `<ol class="index-list">${items.map((it, i) => `<li class="reveal">
+    <a class="index-row" href="${it.href}">
+      <span class="index-row__num" aria-hidden="true">${pad(i + 1)}</span>
+      <span class="index-row__title">${it.title}</span>
+      <span class="index-row__text">${it.text}</span>
+      <span class="index-row__arrow" aria-hidden="true">${icon('arrow')}</span>
+    </a></li>`).join('')}</ol>`;
 }
 
+/** Full-bleed orange call-to-action band. */
 export function ctaBand(t, { title, text, secondary = '' }) {
-  return `<section class="section"><div class="container"><div class="cta-band reveal">
-    <div><h2 class="cta-band__title">${title}</h2><p>${text}</p></div>
-    <div class="actions">${button(t('common.hireMe'), '/contact')}${secondary}</div>
-  </div></div></section>`;
+  return `<section class="cta-band" aria-label="${title.replace(/"/g, '&quot;')}">
+    <div class="cta-band__tex" aria-hidden="true"></div>
+    <div class="container cta-band__inner reveal">
+      <h2 class="cta-band__title">${title}</h2>
+      <div class="cta-band__side">
+        <p>${text}</p>
+        <div class="actions">${button(t('common.hireMe'), '/contact', { variant: 'dark', iconName: 'mail' })}${secondary}</div>
+      </div>
+    </div>
+  </section>`;
 }
 
-export function emptyState({ iconName, title, text, actions = '', titleId }) {
+export function emptyState({ iconName, title, text, actions = '', titleId, count = '0' }) {
   return `<div class="empty-state reveal">
+    <span class="empty-state__count" aria-hidden="true">${count}</span>
     <div class="empty-state__orb" aria-hidden="true">${icon(iconName)}</div>
     <h2 class="empty-state__title"${titleId ? ` id="${titleId}"` : ''}>${title}</h2>
     <p>${text}</p>
@@ -59,10 +75,10 @@ export function emptyState({ iconName, title, text, actions = '', titleId }) {
 export function quoteBlock(t) {
   const translation = t('quote.translation');
   return `<figure class="quote reveal">
-    ${icon('quote', { className: 'quote__mark' })}
-    <blockquote lang="en"><p>“${t('quote.text')}”</p></blockquote>
+    <span class="quote__mark" aria-hidden="true">“</span>
+    <blockquote lang="en"><p>${t('quote.text')}</p></blockquote>
     ${translation ? `<p class="quote__translation">${translation}</p>` : ''}
-    <figcaption>— Nexify · ${t('quote.label')}</figcaption>
+    <figcaption><span class="label">Nexify</span><span class="quote__sep" aria-hidden="true"></span><span class="label label--accent">${t('quote.label')}</span></figcaption>
   </figure>`;
 }
 
@@ -70,22 +86,29 @@ export function callout(title, text, { iconName = 'info', tone = 'info' } = {}) 
   return `<aside class="callout callout--${tone} reveal">${icon(iconName)}<div><p class="callout__title">${title}</p><p>${text}</p></div></aside>`;
 }
 
-export function timeline(t, { compact = false } = {}) {
+/** Experience as a "season record": newest first, one row per organization. */
+export function timeline(t) {
   const items = [...experience].reverse();
-  return `<ol class="timeline${compact ? ' timeline--compact' : ''}">${items.map((e) => `
-    <li class="timeline__item reveal">
-      <div class="timeline__dot" aria-hidden="true"></div>
-      <article class="timeline__card">
-        <p class="timeline__period">${t(`periods.${e.period}`)}</p>
-        <h3 class="timeline__org">${e.org}</h3>
-        <p class="timeline__role">${t(`roles.${e.role}`)}</p>
-        <p class="timeline__loc">${icon('pin')}<span>${e.countries.map((c) => t(`countries.${c}`)).join(' · ')}</span></p>
-        ${compact ? '' : `<ul class="tags">${e.tags.map((g) => `<li class="tag tag--${g}">${t(`tags.${g}`)}</li>`).join('')}</ul>`}
-      </article>
+  return `<ol class="record">${items.map((e) => `
+    <li class="record__row reveal">
+      <p class="record__period">${t(`periods.${e.period}`)}</p>
+      <div class="record__main">
+        <h3 class="record__org">${e.org}</h3>
+        <p class="record__role">${t(`roles.${e.role}`)}</p>
+      </div>
+      <p class="record__loc">${icon('pin')}<span>${e.countries.map((c) => t(`countries.${c}`)).join(' · ')}</span></p>
+      <ul class="record__tags">${e.tags.map((g) => `<li class="tag tag--${g}">${t(`tags.${g}`)}</li>`).join('')}</ul>
     </li>`).join('')}
   </ol>`;
 }
 
 export function chipList(items, className = '') {
   return `<ul class="chips ${className}">${items.map((i) => `<li class="chip">${i}</li>`).join('')}</ul>`;
+}
+
+/** Purely decorative scrolling strip (the same names are listed as real text
+ *  elsewhere on the page); labels are drawn via CSS from data-text. */
+export function marquee(items) {
+  const row = (hidden) => `<ul class="marquee__group"${hidden ? ' data-dup' : ''}>${items.map((i) => `<li class="marquee__item" data-text="${i}"></li>`).join('')}</ul>`;
+  return `<div class="marquee" aria-hidden="true">${row(false)}${row(true)}</div>`;
 }

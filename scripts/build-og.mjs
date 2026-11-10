@@ -9,7 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Fonts are inlined as data URLs so they load inside setContent().
 const font = (p) => `data:font/woff2;base64,${fs.readFileSync(path.join(root, 'public/fonts', p)).toString('base64')}`;
 const html = `<!doctype html><html><head><style>
-@font-face { font-family: Sora; src: url(${font('sora/files/sora-latin-wght-normal.woff2')}) format('woff2'); font-weight: 100 800; }
+@font-face { font-family: Display; src: url(${font('bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2')}) format('woff2'); font-weight: 100 800; }
 @font-face { font-family: Inter; src: url(${font('inter/files/inter-latin-wght-normal.woff2')}) format('woff2'); font-weight: 100 900; }
 * { margin: 0; box-sizing: border-box; }
 body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-family: Inter, sans-serif; color: #f7f0e9;
@@ -20,11 +20,11 @@ body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-
 .c1 { width: 520px; height: 260px; right: -60px; top: 120px; background: rgba(255,95,31,.28); }
 .c2 { width: 420px; height: 200px; left: 380px; bottom: -90px; background: rgba(255,226,168,.10); }
 .wrap { position: absolute; inset: 0; padding: 72px 80px; display: flex; flex-direction: column; }
-.top { display: flex; align-items: center; gap: 16px; font-family: Sora; font-weight: 700; font-size: 30px; }
+.top { display: flex; align-items: center; gap: 16px; font-family: Display; font-weight: 700; font-size: 30px; }
 .pill { margin-left: auto; display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; font-size: 24px; font-weight: 600;
   background: rgba(134,227,173,.10); border: 2px solid rgba(134,227,173,.45); color: #f7f0e9; }
 .dot { width: 14px; height: 14px; border-radius: 50%; background: #86e3ad; box-shadow: 0 0 18px #86e3ad; }
-h1 { margin-top: auto; font-family: Sora; font-weight: 760; font-size: 188px; line-height: .9; letter-spacing: -.055em;
+h1 { margin-top: auto; font-family: Display; font-weight: 760; font-size: 188px; line-height: .9; letter-spacing: -.055em;
   background: linear-gradient(120deg, #ffe2a8 0%, #f7c66b 30%, #ff8a3d 65%, #ff5f1f 100%); -webkit-background-clip: text; color: transparent; padding-bottom: 14px; }
 .sub { font-size: 38px; font-weight: 600; color: #f7f0e9; margin-top: 10px; }
 .sub span { color: #ff8a3d; }

@@ -1,33 +1,32 @@
 import { pageHero, ctaBand, sectionHead, chipList } from '../components.js';
-import { icon } from '../icons.js';
 
 const items = [
-  { id: 'social', icon: 'layers', tools: ['Canva', 'Adobe Photoshop'] },
-  { id: 'planning', icon: 'calendar', tools: ['Notion', 'Trello'] },
-  { id: 'community', icon: 'users', tools: ['Discord'] },
-  { id: 'editing', icon: 'film', tools: ['Premiere Pro', 'CapCut', 'OBS Studio'] },
-  { id: 'branding', icon: 'palette', tools: ['Adobe Photoshop', 'Canva'] },
-  { id: 'ops', icon: 'gear', tools: ['Discord', 'Notion', 'Microsoft Office'] },
+  { id: 'social', tools: ['Canva', 'Adobe Photoshop'] },
+  { id: 'planning', tools: ['Notion', 'Trello'] },
+  { id: 'community', tools: ['Discord'] },
+  { id: 'editing', tools: ['Premiere Pro', 'CapCut', 'OBS Studio'] },
+  { id: 'branding', tools: ['Adobe Photoshop', 'Canva'] },
+  { id: 'ops', tools: ['Discord', 'Notion', 'Microsoft Office'] },
 ];
 
 export default function services(t) {
   const steps = t('services.steps');
   return `
   ${pageHero(t, { eyebrow: t('services.eyebrow'), title: t('services.title'), lead: t('services.lead') })}
-  <section class="section section--flush"><div class="container">
-    <div class="grid grid--3">
-      ${items.map((s) => `<article class="card service reveal">
-        <span class="card__icon">${icon(s.icon)}</span>
-        <h2 class="card__title">${t(`services.items.${s.id}.title`)}</h2>
-        <p class="card__text">${t(`services.items.${s.id}.text`)}</p>
-        <p class="service__tools-label">${t('services.toolsLabel')}</p>
+  <section class="sec sec--flush"><div class="container">
+    <div class="hairgrid hairgrid--3">
+      ${items.map((s, i) => `<article class="hairgrid__cell svc reveal">
+        <span class="svc__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+        <h2 class="svc__title">${t(`services.items.${s.id}.title`)}</h2>
+        <p class="svc__text">${t(`services.items.${s.id}.text`)}</p>
+        <p class="label">${t('services.toolsLabel')}</p>
         ${chipList(s.tools, 'chips--sm chips--tools')}
       </article>`).join('')}
     </div>
   </div></section>
-  <section class="section" aria-labelledby="process-title"><div class="container">
-    ${sectionHead(t('services.processTitle'), { id: 'process-title' })}
-    <ol class="steps">${steps.map((s, i) => `<li class="step reveal"><span class="step__num" aria-hidden="true">0${i + 1}</span><h3 class="card__title">${s.title}</h3><p class="card__text">${s.text}</p></li>`).join('')}</ol>
+  <section class="sec" aria-labelledby="process-title"><div class="container">
+    ${sectionHead(t('services.processTitle'), { id: 'process-title', num: 1 })}
+    <ol class="steps">${steps.map((s, i) => `<li class="step reveal"><span class="step__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3 class="step__title">${s.title}</h3><p>${s.text}</p></li>`).join('')}</ol>
   </div></section>
   ${ctaBand(t, { title: t('services.ctaTitle'), text: t('services.ctaText') })}
   `;

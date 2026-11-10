@@ -4,6 +4,8 @@ A standalone portfolio site for **Nexify**, a Fortnite player and Esports Social
 Node.js + Express with server-rendered pages, in English (default), Dutch and Portuguese.
 It has no build step, no analytics, and no third-party requests at runtime (fonts are self-hosted).
 
+**Design:** editorial broadcast style. Display type is Bricolage Grotesque, body text Inter, and data labels JetBrains Mono, all self-hosted in `public/fonts`. The cloud textures in `public/img/clouds-*.webp` are generated once with `npm run build:clouds` and loaded after the page has finished loading. All motion is disabled under `prefers-reduced-motion`.
+
 ## Run
 
 ```bash

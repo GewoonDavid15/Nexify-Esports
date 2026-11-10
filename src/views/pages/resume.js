@@ -1,26 +1,22 @@
 import { pageHero, sectionHead, cvButton, timeline, chipList, quoteBlock, callout } from '../components.js';
 import { resumeSkills, tools } from '../../resume.js';
-import { icon } from '../icons.js';
-import { site } from '../../config.js';
 
 export default function resume(t) {
   const details = t('resume.details');
   return `
   ${pageHero(t, {
     eyebrow: t('resume.eyebrow'), title: t('resume.title'), lead: t('resume.lead'),
-    actions: `${cvButton(t)}<span class="muted small">${t('common.downloadCvNote')}</span>`,
+    actions: `${cvButton(t)}<span class="label">${t('common.downloadCvNote')}</span>`,
   })}
   <div class="container resume-layout">
     <div class="resume-main">
-      <section class="section section--flush" aria-labelledby="profile-title">
-        <div class="panel reveal">
-          <h2 class="section-title" id="profile-title">${t('resume.profileTitle')}</h2>
-          <p>${t('resume.profileText')}</p>
-          <dl class="details">${details.map((d) => `<div><dt>${d.label}</dt><dd>${d.value}</dd></div>`).join('')}</dl>
-        </div>
+      <section class="sec sec--flush" aria-labelledby="profile-title">
+        ${sectionHead(t('resume.profileTitle'), { id: 'profile-title', num: 1 })}
+        <p class="resume-profile reveal">${t('resume.profileText')}</p>
+        <dl class="stats stats--2 reveal">${details.map((d) => `<div class="stat"><dt>${d.label}</dt><dd>${d.value}</dd></div>`).join('')}</dl>
       </section>
-      <section class="section section--flush" aria-labelledby="exp-title">
-        ${sectionHead(t('resume.experienceTitle'), { id: 'exp-title' })}
+      <section class="sec sec--flush" aria-labelledby="exp-title">
+        ${sectionHead(t('resume.experienceTitle'), { id: 'exp-title', num: 2 })}
         ${timeline(t)}
         ${callout(t('achievements.clarifyTitle'), t('resume.note'))}
       </section>
@@ -41,11 +37,8 @@ export default function resume(t) {
       </section>
     </aside>
   </div>
-  <section class="section" aria-labelledby="motto-title">
-    <div class="container narrow">
-      ${sectionHead(t('resume.mottoTitle'), { id: 'motto-title' })}
-      ${quoteBlock(t)}
-    </div>
+  <section class="sec sec--quote" aria-label="${t('resume.mottoTitle')}">
+    <div class="container">${quoteBlock(t)}</div>
   </section>
   `;
 }

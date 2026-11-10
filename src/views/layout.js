@@ -4,9 +4,10 @@ import { routes } from '../routes.js';
 import { LANGS, site, socials } from '../config.js';
 import { dictionaries } from '../i18n/index.js';
 
-function navLink(t, route, currentPath, extraClass = '') {
+function navLink(t, route, currentPath, extraClass = '', num) {
   const current = route.path === currentPath;
-  return `<a class="nav-link ${extraClass}" href="${route.path}"${current ? ' aria-current="page"' : ''}>${t(`nav.${route.key}`)}</a>`;
+  const n = num ? `<span class="nav-num" aria-hidden="true">${String(num).padStart(2, '0')}</span>` : '';
+  return `<a class="nav-link ${extraClass}" href="${route.path}"${current ? ' aria-current="page"' : ''}>${n}<span>${t(`nav.${route.key}`)}</span></a>`;
 }
 
 export function langSwitch(t, currentPath, id) {
@@ -58,7 +59,7 @@ export function layout({ t, path, pageKey, body, bodyClass = '', origin = '', no
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(meta.description)}">
-<meta name="theme-color" content="#0c0a0e">
+<meta name="theme-color" content="#0a0809">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${site.name}">
@@ -77,8 +78,9 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 ${alternates}
 <link rel="alternate" hreflang="x-default" href="${langUrl('en')}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/js/boot.js"></script>
 <link rel="preload" href="/fonts/inter/files/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/sora/files/sora-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/css/styles.css">
 <script src="/js/app.js" defer></script>
@@ -86,7 +88,7 @@ ${alternates}
 <body class="${bodyClass}">
 <a class="skip-link" href="#main">${t('common.skip')}</a>
 ${LONG_PAGES.includes(pageKey) ? '<div class="scroll-progress" aria-hidden="true" data-scroll-progress><span></span></div>' : ''}
-<div class="sky" aria-hidden="true"><span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span><span class="cloud c5"></span><span class="grain"></span></div>
+<div class="sky" aria-hidden="true"><span class="sky__glow sky__glow--1"></span><span class="sky__glow sky__glow--2"></span><span class="sky__tex"></span><span class="sky__vignette"></span><span class="grain"></span></div>
 
 <header class="site-header" data-header>
   <div class="container header-inner">
@@ -100,12 +102,12 @@ ${LONG_PAGES.includes(pageKey) ? '<div class="scroll-progress" aria-hidden="true
     <div class="nav-panel" id="site-nav" data-nav>
       <nav aria-label="${esc(t('common.mainNav'))}">
         <ul class="nav-list">
-          ${mainRoutes.map((r) => `<li>${navLink(t, r, path)}</li>`)}
+          ${mainRoutes.map((r, i) => `<li>${navLink(t, r, path, '', i + 1)}</li>`)}
         </ul>
       </nav>
       <div class="nav-actions">
         ${langSwitch(t, path, 'lang-label-header')}
-        <a class="btn btn--primary btn--sm" href="${contactRoute.path}"${path === '/contact' ? ' aria-current="page"' : ''}>${t('common.hireMe')}</a>
+        <a class="btn btn--primary btn--sm" href="${contactRoute.path}"${path === '/contact' ? ' aria-current="page"' : ''}><span>${t('common.hireMe')}</span>${icon('arrow')}</a>
       </div>
     </div>
   </div>
@@ -116,6 +118,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
+  <div class="footer-tex" aria-hidden="true"></div>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
@@ -134,6 +137,7 @@ ${body}
         ${langSwitch(t, path, 'lang-label-footer')}
       </div>
     </div>
+    <p class="footer-wordmark" aria-hidden="true">${site.name}</p>
     <div class="footer-bottom">
       <p>© ${new Date().getFullYear()} ${site.name}. ${t('common.footerNote')}</p>
       <p>${t('common.footerDraft')}</p>
