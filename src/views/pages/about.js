@@ -9,6 +9,7 @@ export default function about(t) {
       <div class="split">
         <article class="split__col reveal"><p class="label label--accent">A</p><h3 class="split__title">${t('about.playerTitle')}</h3><p>${t('about.playerText')}</p></article>
         <article class="split__col reveal"><p class="label label--accent">B</p><h3 class="split__title">${t('about.contentTitle')}</h3><p>${t('about.contentText')}</p></article>
+        <article class="split__col reveal"><p class="label label--accent">C</p><h3 class="split__title">${t('about.techTitle')}</h3><p>${t('about.techText')}</p></article>
       </div>
       <article class="origin reveal">
         <p class="origin__year" aria-hidden="true">2020</p>

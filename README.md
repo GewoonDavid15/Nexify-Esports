@@ -56,13 +56,13 @@ Messages are never stored, and their contents are never logged.
 
 ## CV download
 
-`public/cv/Nexify-CV.pdf` is served by the Download CV buttons. Regenerate it with:
+`public/cv/Nexify-CV.pdf` is served by the Download CV buttons. It is the official resume, `attached_assets/Nexify_Resume_Esports_v2_1.docx`, converted unchanged with LibreOffice. To update it, replace the DOCX and run:
 
 ```bash
 npm run build:cv
 ```
 
-If `attached_assets/Nexify_Resume*.docx` exists, the script converts that original file unchanged with LibreOffice. Otherwise it renders the PDF from the resume facts in `src/resume.js`, adding nothing.
+The resume facts shown on the site live in `src/resume.js` and the i18n files. Keep them in line with the DOCX.
 
 ## Checks
 

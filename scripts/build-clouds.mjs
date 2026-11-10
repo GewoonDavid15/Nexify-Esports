@@ -26,9 +26,9 @@ const layer = ({ w, h, freq, oct, seed, k, off, color, mask }) => `<!doctype htm
 </svg></body></html>`;
 
 const jobs = [
-  { name: 'clouds-back', w: 2400, h: 1500, freq: '0.0018 0.0032', oct: 6, seed: 7, k: 3.4, off: -1.62, color: [1, 0.6, 0.3],
+  { name: 'clouds-back', w: 2400, h: 1500, freq: '0.0018 0.0032', oct: 6, seed: 7, k: 3.4, off: -1.62, color: [0.62, 0.42, 1],
     mask: '<stop offset="0" stop-color="#fff"/><stop offset=".7" stop-color="#999"/><stop offset="1" stop-color="#333"/>' },
-  { name: 'clouds-front', w: 2400, h: 900, freq: '0.0022 0.0055', oct: 6, seed: 23, k: 3.6, off: -1.7, color: [1, 0.84, 0.66],
+  { name: 'clouds-front', w: 2400, h: 900, freq: '0.0022 0.0055', oct: 6, seed: 23, k: 3.6, off: -1.7, color: [0.84, 0.76, 1],
     mask: '<stop offset="0" stop-color="#000"/><stop offset=".35" stop-color="#666"/><stop offset=".75" stop-color="#fff"/><stop offset="1" stop-color="#fff"/>' },
 ];
 

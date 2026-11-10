@@ -1,5 +1,5 @@
-import { pageHero, sectionHead, cvButton, timeline, chipList, quoteBlock, callout } from '../components.js';
-import { resumeSkills, tools } from '../../resume.js';
+import { pageHero, sectionHead, cvButton, timeline, chipList, quoteBlock, callout, highlights } from '../components.js';
+import { skillGroups, tools } from '../../resume.js';
 
 export default function resume(t) {
   const details = t('resume.details');
@@ -15,8 +15,12 @@ export default function resume(t) {
         <p class="resume-profile reveal">${t('resume.profileText')}</p>
         <dl class="stats stats--2 reveal">${details.map((d) => `<div class="stat"><dt>${d.label}</dt><dd>${d.value}</dd></div>`).join('')}</dl>
       </section>
+      <section class="sec sec--flush" aria-labelledby="hl-title">
+        ${sectionHead(t('resume.highlightsTitle'), { id: 'hl-title', num: 2 })}
+        ${highlights(t, 2)}
+      </section>
       <section class="sec sec--flush" aria-labelledby="exp-title">
-        ${sectionHead(t('resume.experienceTitle'), { id: 'exp-title', num: 2 })}
+        ${sectionHead(t('resume.experienceTitle'), { id: 'exp-title', num: 3, lead: t('resume.experienceNote') })}
         ${timeline(t)}
         ${callout(t('achievements.clarifyTitle'), t('resume.note'))}
       </section>
@@ -24,7 +28,7 @@ export default function resume(t) {
     <aside class="resume-side">
       <section class="panel reveal" aria-labelledby="rskills-title">
         <h2 class="panel__title" id="rskills-title">${t('resume.skillsTitle')}</h2>
-        ${chipList(resumeSkills.map((k) => t(`skills.${k}`)))}
+        ${skillGroups.map((g) => `<p class="label label--accent panel__sub">${t(`skillsPage.groups.${g.id}.title`)}</p>${chipList(g.skills.map((k) => t(`skills.${k}`)), 'chips--sm')}`).join('')}
       </section>
       <section class="panel reveal" aria-labelledby="rtools-title">
         <h2 class="panel__title" id="rtools-title">${t('resume.toolsTitle')}</h2>

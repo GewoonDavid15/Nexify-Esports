@@ -39,9 +39,9 @@ export function logoMark(className = '') {
   const id = `lg-n-${++logoCount}`;
   return `<svg class="logo-mark ${className}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
     <defs>
-      <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset=".55" stop-color="#ff9a3c"/><stop offset="1" stop-color="#ff5e1f"/></linearGradient>
+      <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e2ff"/><stop offset=".55" stop-color="#c084fc"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
     </defs>
-    <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="rgba(255,154,60,.08)" stroke="url(#${id})" stroke-width="1.6"/>
+    <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="rgba(168,85,247,.1)" stroke="url(#${id})" stroke-width="1.6"/>
     <path d="M12.5 28V12.5h.4L27 27.5h.5V12" fill="none" stroke="url(#${id})" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
 }

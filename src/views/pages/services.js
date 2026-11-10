@@ -1,11 +1,11 @@
 import { pageHero, ctaBand, sectionHead, chipList } from '../components.js';
 
 const items = [
-  { id: 'social', tools: ['Canva', 'Adobe Photoshop'] },
-  { id: 'planning', tools: ['Notion', 'Trello'] },
+  { id: 'social', tools: ['Notion', 'Trello', 'Canva'] },
   { id: 'community', tools: ['Discord'] },
-  { id: 'editing', tools: ['Premiere Pro', 'CapCut', 'OBS Studio'] },
-  { id: 'branding', tools: ['Adobe Photoshop', 'Canva'] },
+  { id: 'editing', tools: ['Premiere Pro', 'CapCut'] },
+  { id: 'branding', tools: ['Photoshop', 'Canva'] },
+  { id: 'tech', tools: ['BDFD', 'OBS Studio', 'Lua', 'Python'] },
   { id: 'ops', tools: ['Discord', 'Notion', 'Microsoft Office'] },
 ];
 

@@ -1,19 +1,18 @@
-import { pageHero, sectionHead, timeline, callout, ctaBand, cvButton } from '../components.js';
+import { pageHero, sectionHead, timeline, callout, ctaBand, cvButton, highlights } from '../components.js';
 import { icon } from '../icons.js';
 import { socials } from '../../config.js';
 
 export default function achievements(t) {
   const tracker = socials.find((s) => s.id === 'tracker');
-  const highlights = t('achievements.highlights');
   return `
   ${pageHero(t, { eyebrow: t('achievements.eyebrow'), title: t('achievements.title'), lead: t('achievements.lead') })}
   <div class="container">${callout(t('achievements.clarifyTitle'), t('achievements.clarifyText'), { iconName: 'alert', tone: 'warn' })}</div>
   <section class="sec" aria-labelledby="hl-title"><div class="container">
     ${sectionHead(t('achievements.highlightsTitle'), { id: 'hl-title', num: 1 })}
-    <div class="hairgrid hairgrid--3">${highlights.map((h, i) => `<article class="hairgrid__cell highlight reveal"><span class="svc__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3 class="svc__title">${h.title}</h3><p class="svc__text">${h.text}</p></article>`).join('')}</div>
+    ${highlights(t, 4)}
   </div></section>
   <section class="sec" aria-labelledby="tl-title"><div class="container">
-    ${sectionHead(t('achievements.timelineTitle'), { id: 'tl-title', num: 2 })}
+    ${sectionHead(t('achievements.timelineTitle'), { id: 'tl-title', num: 2, lead: t('resume.experienceNote') })}
     ${timeline(t)}
   </div></section>
   <section class="sec sec--tight" aria-labelledby="tracker-title"><div class="container">

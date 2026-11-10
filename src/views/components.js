@@ -1,4 +1,5 @@
 import { icon } from './icons.js';
+import { esc } from './html.js';
 import { site } from '../config.js';
 import { experience } from '../resume.js';
 
@@ -90,16 +91,27 @@ export function callout(title, text, { iconName = 'info', tone = 'info' } = {}) 
 export function timeline(t) {
   const items = [...experience].reverse();
   return `<ol class="record">${items.map((e) => `
-    <li class="record__row reveal">
-      <p class="record__period">${t(`periods.${e.period}`)}</p>
+    <li class="record__row reveal${e.current ? ' record__row--current' : ''}">
+      <p class="record__period">${e.current ? '<span class="pulse" aria-hidden="true"></span>' : ''}${t(`periods.${e.period}`)}</p>
       <div class="record__main">
         <h3 class="record__org">${e.org}</h3>
         <p class="record__role">${t(`roles.${e.role}`)}</p>
+        <ul class="record__points">${t(`experiencePoints.${e.id}`).map((pt) => `<li>${pt}</li>`).join('')}</ul>
       </div>
       <p class="record__loc">${icon('pin')}<span>${e.countries.map((c) => t(`countries.${c}`)).join(' · ')}</span></p>
-      <ul class="record__tags">${e.tags.map((g) => `<li class="tag tag--${g}">${t(`tags.${g}`)}</li>`).join('')}</ul>
+      <ul class="record__tags">${e.current ? `<li class="tag tag--current">${t('tags.current')}</li>` : ''}${e.tags.map((g) => `<li class="tag tag--${g}">${t(`tags.${g}`)}</li>`).join('')}</ul>
     </li>`).join('')}
   </ol>`;
+}
+
+/** Resume highlights as big-number cells. */
+export function highlights(t, cols = 2) {
+  return `<div class="hairgrid hairgrid--${cols}">${t('highlights').map((h) => `
+    <article class="hairgrid__cell highlight reveal">
+      <span class="highlight__value" aria-hidden="true">${esc(h.value)}</span>
+      <h3 class="svc__title">${h.title}</h3>
+      <p class="svc__text">${h.text}</p>
+    </article>`).join('')}</div>`;
 }
 
 export function chipList(items, className = '') {
