@@ -7,6 +7,17 @@
  */
 export const PUBLIC_CONTACT_EMAIL = 'gewoon.davidd@gmail.com';
 
+/** Legal identity used on the privacy, terms, cookie and disclaimer pages. */
+export const LEGAL = {
+  name: 'David J.R.D.S',
+  country: 'NL',
+  /** Privacy/legal contact — the owner chose to use the public contact address. */
+  email: PUBLIC_CONTACT_EMAIL,
+  /** Contact-form emails are deleted after this many days. */
+  retentionDays: 30,
+  updated: '2026-11-10',
+};
+
 export const site = {
   name: 'Nexify',
   contactEmail: PUBLIC_CONTACT_EMAIL,
@@ -28,7 +39,7 @@ export const status: { state: 'free' | 'signed'; team?: string; role?: string } 
  * Discord server once. Can also be set with the DISCORD_USER_ID env var.
  * Empty = the status card is hidden.
  */
-export const DISCORD_USER_ID = '';
+export const DISCORD_USER_ID = '1182557545894789131';
 
 export type SocialId = 'youtube' | 'x' | 'discord' | 'tracker';
 export interface Social {

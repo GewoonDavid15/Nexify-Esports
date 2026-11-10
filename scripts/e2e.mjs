@@ -123,7 +123,8 @@ try {
       if (r.status !== 200 || !(r.headers.get('content-type') || '').includes('pdf')) fail(`media kit ${l} PDF not served`);
     }
     const ds = await (await fetch(`${base}/api/discord-status`)).json();
-    if (ds.enabled !== false) fail('discord status should be disabled without a user ID');
+    if (typeof ds.enabled !== 'boolean' || (ds.enabled && !['online', 'idle', 'dnd', 'offline'].includes(ds.status))) fail(`unexpected discord status payload: ${JSON.stringify(ds)}`);
+    if (Object.keys(ds).some((k) => !['enabled', 'status', 'game'].includes(k))) fail('discord status leaks extra fields');
     await ctx.close();
   }
   // Reduced motion: nothing stays hidden

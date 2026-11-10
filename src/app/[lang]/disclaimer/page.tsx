@@ -5,6 +5,6 @@ import { LegalPage } from '@/components/sections/Legal';
 export const generateMetadata = ({ params }: LangParams) => pageMeta(params, 'disclaimer', '/disclaimer');
 
 export default async function Page({ params }: LangParams) {
-  const { d } = await i18nFromParams(params);
-  return <LegalPage d={d} ns="disclaimer" />;
+  const { d, lang } = await i18nFromParams(params);
+  return <LegalPage d={d} ns="disclaimer" lang={lang} />;
 }

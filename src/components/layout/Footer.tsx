@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Dict } from '@/lib/i18n';
-import { site } from '@/lib/config';
+import { LEGAL, site } from '@/lib/config';
+import { fmt } from '@/lib/i18n/fmt';
 import { LogoMark } from '../ui/Logo';
 import { Icon } from '../ui/Icon';
 import { Socials } from '../sections/Socials';
@@ -36,7 +37,7 @@ export function Footer({ d }: { d: Dict }) {
         </div>
         <div className="ftr__bottom">
           <p>© {new Date().getFullYear()} Nexify. {d.common.footerNote}</p>
-          <p>{d.common.footerDraft}</p>
+          <p>{fmt(d.common.footerDraft, { name: LEGAL.name })}</p>
         </div>
       </div>
     </footer>

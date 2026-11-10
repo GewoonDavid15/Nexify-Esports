@@ -1,26 +1,21 @@
 import type { Dict } from '@/lib/i18n';
-import { LANG_COOKIE } from '@/lib/config';
-import { Icon } from '../ui/Icon';
+import { locales } from '@/lib/i18n';
+import { fmt } from '@/lib/i18n/fmt';
+import { LANG_COOKIE, LEGAL, type Lang } from '@/lib/config';
 import { Rich } from '../ui/Rich';
 import { PageHero } from './Blocks';
 
 type Ns = 'privacy' | 'terms' | 'cookiesPage' | 'disclaimer';
 
-export function LegalPage({ d, ns }: { d: Dict; ns: Ns }) {
+export function LegalPage({ d, ns, lang }: { d: Dict; ns: Ns; lang: Lang }) {
   const page = d[ns];
+  const vars = { name: LEGAL.name, email: LEGAL.email, days: LEGAL.retentionDays };
+  const date = new Intl.DateTimeFormat(locales[lang], { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(LEGAL.updated));
   return (
     <>
       <PageHero eyebrow={page.eyebrow} title={page.title} lead={page.lead} />
       <div className="wrap wrap--narrow legal">
-        <aside className="draft" aria-labelledby="draft-title" data-reveal="">
-          <Icon name="alert" />
-          <div>
-            <p className="draft__title" id="draft-title"><span className="badge badge--warn">{d.common.draftBadge}</span> {d.legal.draftTitle}</p>
-            <p>{d.legal.draftText}</p>
-            <p className="draft__missing">{d.legal.missingTitle}</p>
-            <ul>{page.missing.map((m) => <li key={m}>{m}</li>)}</ul>
-          </div>
-        </aside>
+        <Rich as="p" className="legal__who" html={fmt(d.legal.responsible, vars)} />
         <div className="legal__body">
           {ns === 'cookiesPage' ? (
             <div className="table-wrap" data-reveal="">
@@ -36,12 +31,12 @@ export function LegalPage({ d, ns }: { d: Dict; ns: Ns }) {
               <span className="lsec__n" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
               <div>
                 <h2 id={`ls-${i}`}>{s.h}</h2>
-                {'p' in s && s.p ? s.p.map((p) => <Rich key={p} as="p" html={p} />) : null}
+                {'p' in s && s.p ? s.p.map((p) => <Rich key={p} as="p" html={fmt(p, vars)} />) : null}
                 {'list' in s && s.list ? <ul>{s.list.map((l) => <li key={l}>{l}</li>)}</ul> : null}
               </div>
             </section>
           ))}
-          <p className="legal__updated">{d.legal.updated}</p>
+          <p className="legal__updated">{fmt(d.legal.updated, { date })}</p>
         </div>
       </div>
     </>

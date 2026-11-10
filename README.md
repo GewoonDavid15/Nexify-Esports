@@ -40,6 +40,7 @@ Because the pages are static, the CSP is a static header (`next.config.ts`) and 
 
 | What | Where |
 |---|---|
+| Legal identity (name, privacy contact, retention) | `LEGAL` in `src/lib/config.ts` |
 | Free agent / signed status | `status` in `src/lib/config.ts`. One switch updates every badge and status text |
 | Live Discord status | `DISCORD_USER_ID` in `src/lib/config.ts` (or as an env var). Also join the Lanyard Discord once. The card stays hidden while it's empty |
 | Testimonials | `src/lib/testimonials.ts`. Real quotes only, shared with permission |

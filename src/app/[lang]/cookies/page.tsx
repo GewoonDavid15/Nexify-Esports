@@ -5,6 +5,6 @@ import { LegalPage } from '@/components/sections/Legal';
 export const generateMetadata = ({ params }: LangParams) => pageMeta(params, 'cookies', '/cookies');
 
 export default async function Page({ params }: LangParams) {
-  const { d } = await i18nFromParams(params);
-  return <LegalPage d={d} ns="cookiesPage" />;
+  const { d, lang } = await i18nFromParams(params);
+  return <LegalPage d={d} ns="cookiesPage" lang={lang} />;
 }

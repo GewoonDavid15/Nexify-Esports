@@ -19,7 +19,9 @@ export function DiscordStatus({ t, handle }: { t: Labels; handle: string }) {
     return () => { alive = false; clearInterval(id); };
   }, []);
   const show = s?.enabled && s.status;
+  // Fixed-height slot so the heading never moves when the status arrives.
   return (
+    <div className="dstatus-slot">
     <AnimatePresence>
       {show ? (
         <m.p className={`dstatus dstatus--${s.status}`} role="status" aria-label={t.label}
@@ -31,5 +33,6 @@ export function DiscordStatus({ t, handle }: { t: Labels; handle: string }) {
         </m.p>
       ) : null}
     </AnimatePresence>
+    </div>
   );
 }
