@@ -86,6 +86,7 @@ const pt: Dict = {
   },
 
   countries: { NL: 'Países Baixos', PT: 'Portugal', SE: 'Suécia', US: 'Estados Unidos', UK: 'Reino Unido' },
+  countriesInText: { NL: 'Países Baixos', PT: 'Portugal', SE: 'Suécia', US: 'Estados Unidos', UK: 'Reino Unido' },
 
   roles: {
     founder: 'Fundador',
@@ -215,6 +216,29 @@ const pt: Dict = {
     nowText1: 'Depois de uma pausa no Fortnite, estou totalmente de volta e treino todos os dias as minhas mecânicas, game sense e consistência.',
     nowText2: 'Mais recentemente geri as redes sociais da Haze Esports (meados de 2026). Agora sou free agent e estou disponível para plantéis competitivos de Fortnite e funções de gestor de redes sociais. Falo português, neerlandês e inglês.',
     motivationTitle: 'Lema',
+    factsTitle: 'Em resumo',
+    facts: {
+      based: 'Vive em', basedV: 'Países Baixos',
+      nationality: 'Nacionalidade', nationalityV: 'Portuguesa',
+      input: 'Joga com', inputV: 'Comando no PC',
+      timezone: 'Fuso horário', timezoneV: 'CET (Países Baixos)',
+      since: 'Nos esports desde',
+      orgs: 'Organizações',
+      countries: 'Equipas em', countriesV: '{n} países',
+      languages: 'Línguas', languagesV: 'Português, neerlandês, inglês',
+      status: 'Estado',
+    },
+    faqTitle: 'Perguntas frequentes',
+    faq: [
+      { q: 'Está disponível neste momento?', a: '{status}' },
+      { q: 'Consegue jogar e gerir as redes sociais ao mesmo tempo?', a: 'Sim. Na Vertex, na NovaRise e na Aether Esports joguei no plantel competitivo e geri as redes sociais da organização ao mesmo tempo.' },
+      { q: 'Em que plataforma joga?', a: 'Comando no PC. Desde 2020 participo em scrims, Cash Cups e eventos online de Fortnite.' },
+      { q: 'O que inclui o seu trabalho em redes sociais?', a: 'Calendários de conteúdo, apresentações de plantel, atualizações de jogos em direto, anúncios da organização e envolvimento da comunidade — o trabalho que fiz para a Vertex, a NovaRise, a Aether e a Haze Esports.' },
+      { q: 'Também cria bots de Discord e overlays?', a: 'Sim. Crio bots de Discord personalizados (tickets, níveis, giveaways, menus de definições) com BDFD, e faço pacotes de stream e overlays para OBS. Veja os <a href="/services">serviços</a>.' },
+      { q: 'Que línguas fala?', a: 'Português (nativo), neerlandês e inglês.' },
+      { q: 'Onde já trabalhou?', a: 'Em sete organizações de esports, com equipas em {countries}. A visão completa está na <a href="/achievements">página de experiência</a>.' },
+      { q: 'Qual é a forma mais rápida de o contactar?', a: 'Envie um email para <a href="mailto:{email}">{email}</a> ou adicione-me no Discord: <strong>officialnexify</strong>. Está tudo na <a href="/contact">página de contacto</a>.' },
+    ],
   },
 
   resume: {

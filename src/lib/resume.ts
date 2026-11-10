@@ -30,7 +30,7 @@ export const experience: Role[] = [
   { id: 'lusitania', org: 'Lusitania Esports', role: 'fortnitePlayerContentEditor', period: 'y2022', countries: ['PT'], tags: ['player', 'content'] },
   { id: 'vertex', org: 'Vertex Esports', role: 'playerSmm', period: 'y2023', countries: ['NL'], tags: ['player', 'social'] },
   { id: 'novarise', org: 'NovaRise Esports', role: 'playerSmm', period: 'y2025', countries: ['PT'], tags: ['player', 'social'] },
-  { id: 'aether', org: 'Aether Esports', role: 'playerSmm', period: 'early2026', countries: ['PT'], tags: ['player', 'social'] },
+  { id: 'aether', org: 'Aether Esports', role: 'playerSmm', period: 'early2026', countries: ['US', 'UK'], tags: ['player', 'social'] },
   { id: 'haze', org: 'Haze Esports', role: 'smm', period: 'mid2026', countries: ['US', 'UK'], tags: ['social'] },
 ];
 

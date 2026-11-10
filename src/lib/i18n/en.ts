@@ -86,6 +86,7 @@ const en = {
   },
 
   countries: { NL: 'Netherlands', PT: 'Portugal', SE: 'Sweden', US: 'United States', UK: 'United Kingdom' },
+  countriesInText: { NL: 'the Netherlands', PT: 'Portugal', SE: 'Sweden', US: 'the United States', UK: 'the United Kingdom' },
 
   roles: {
     founder: 'Founder',
@@ -215,6 +216,29 @@ const en = {
     nowText1: 'After a break from Fortnite I’m fully back, training my mechanics, game sense and consistency every day.',
     nowText2: 'Most recently I ran social media for Haze Esports (mid 2026). Right now I’m a free agent, open to competitive Fortnite rosters and social media manager roles. I speak Portuguese, Dutch and English.',
     motivationTitle: 'Motto',
+    factsTitle: 'Quick facts',
+    facts: {
+      based: 'Based in', basedV: 'The Netherlands',
+      nationality: 'Nationality', nationalityV: 'Portuguese',
+      input: 'Plays on', inputV: 'Controller on PC',
+      timezone: 'Timezone', timezoneV: 'CET (Netherlands)',
+      since: 'In esports since',
+      orgs: 'Organizations',
+      countries: 'Teams in', countriesV: '{n} countries',
+      languages: 'Languages', languagesV: 'Portuguese, Dutch, English',
+      status: 'Status',
+    },
+    faqTitle: 'Frequently asked questions',
+    faq: [
+      { q: 'Are you available right now?', a: '{status}' },
+      { q: 'Can you play and run social media at the same time?', a: 'Yes. At Vertex, NovaRise and Aether Esports I played on the competitive roster and ran the org’s social media at the same time.' },
+      { q: 'What do you play on?', a: 'Controller on PC. I’ve competed in Fortnite scrims, Cash Cups and online events since 2020.' },
+      { q: 'What does your social media work include?', a: 'Content schedules, roster reveals, live match updates, org announcements and community engagement — the work I did for Vertex, NovaRise, Aether and Haze Esports.' },
+      { q: 'Do you also build Discord bots and overlays?', a: 'Yes. I build custom Discord bots (tickets, leveling, giveaways, settings menus) with BDFD, and make OBS stream packs and overlays. See <a href="/services">services</a>.' },
+      { q: 'Which languages do you speak?', a: 'Portuguese (native), Dutch and English.' },
+      { q: 'Where have you worked?', a: 'With seven esports organizations, with teams in {countries}. The full overview is on the <a href="/achievements">experience page</a>.' },
+      { q: 'What’s the fastest way to reach you?', a: 'Email <a href="mailto:{email}">{email}</a> or add me on Discord: <strong>officialnexify</strong>. Everything is on the <a href="/contact">contact page</a>.' },
+    ],
   },
 
   resume: {

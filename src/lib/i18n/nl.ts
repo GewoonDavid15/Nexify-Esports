@@ -86,6 +86,7 @@ const nl: Dict = {
   },
 
   countries: { NL: 'Nederland', PT: 'Portugal', SE: 'Zweden', US: 'Verenigde Staten', UK: 'Verenigd Koninkrijk' },
+  countriesInText: { NL: 'Nederland', PT: 'Portugal', SE: 'Zweden', US: 'de Verenigde Staten', UK: 'het Verenigd Koninkrijk' },
 
   roles: {
     founder: 'Oprichter',
@@ -215,6 +216,29 @@ const nl: Dict = {
     nowText1: 'Na een pauze van Fortnite ben ik volledig terug en train ik elke dag aan mijn mechanics, game sense en consistentie.',
     nowText2: 'Het laatst verzorgde ik de social media van Haze Esports (medio 2026). Nu ben ik free agent en sta ik open voor competitieve Fortnite-selecties en functies als social media manager. Ik spreek Portugees, Nederlands en Engels.',
     motivationTitle: 'Motto',
+    factsTitle: 'In het kort',
+    facts: {
+      based: 'Woont in', basedV: 'Nederland',
+      nationality: 'Nationaliteit', nationalityV: 'Portugees',
+      input: 'Speelt op', inputV: 'Controller op pc',
+      timezone: 'Tijdzone', timezoneV: 'CET (Nederland)',
+      since: 'In esports sinds',
+      orgs: 'Organisaties',
+      countries: 'Teams in', countriesV: '{n} landen',
+      languages: 'Talen', languagesV: 'Portugees, Nederlands, Engels',
+      status: 'Status',
+    },
+    faqTitle: 'Veelgestelde vragen',
+    faq: [
+      { q: 'Ben je nu beschikbaar?', a: '{status}' },
+      { q: 'Kun je tegelijk spelen en de social media doen?', a: 'Ja. Bij Vertex, NovaRise en Aether Esports speelde ik in de competitieve roster en deed ik tegelijk de social media van de organisatie.' },
+      { q: 'Waarop speel je?', a: 'Controller op pc. Sinds 2020 speel ik Fortnite-scrims, Cash Cups en online events.' },
+      { q: 'Wat houdt je social media werk in?', a: 'Contentplanningen, rosteraankondigingen, live wedstrijdupdates, aankondigingen van de organisatie en community-engagement — het werk dat ik deed voor Vertex, NovaRise, Aether en Haze Esports.' },
+      { q: 'Maak je ook Discord-bots en overlays?', a: 'Ja. Ik bouw eigen Discord-bots (tickets, levels, giveaways, instellingenmenu’s) met BDFD, en maak OBS-streampakketten en overlays. Zie <a href="/services">diensten</a>.' },
+      { q: 'Welke talen spreek je?', a: 'Portugees (moedertaal), Nederlands en Engels.' },
+      { q: 'Waar heb je gewerkt?', a: 'Bij zeven esportsorganisaties, met teams in {countries}. Het volledige overzicht staat op de <a href="/achievements">ervaringspagina</a>.' },
+      { q: 'Hoe bereik ik je het snelst?', a: 'Mail naar <a href="mailto:{email}">{email}</a> of voeg me toe op Discord: <strong>officialnexify</strong>. Alles staat op de <a href="/contact">contactpagina</a>.' },
+    ],
   },
 
   resume: {
