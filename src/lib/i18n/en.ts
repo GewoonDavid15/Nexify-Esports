@@ -48,6 +48,7 @@ const en = {
     footerFind: 'Find me',
     footerNote: 'Personal portfolio of a private individual. Not affiliated with or endorsed by Epic Games.',
     footerDraft: 'Run by {name}, the Netherlands.',
+    madeBy: 'Website by {link}',
     newTab: '(opens in a new tab)',
     copyDiscord: 'Copy Discord username',
     copied: 'Copied to clipboard',

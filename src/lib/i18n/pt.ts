@@ -48,6 +48,7 @@ const pt: Dict = {
     footerFind: 'Encontre-me',
     footerNote: 'Portefólio pessoal de um particular. Sem afiliação nem aprovação da Epic Games.',
     footerDraft: 'Gerido por {name}, Países Baixos.',
+    madeBy: 'Site criado por {link}',
     newTab: '(abre num novo separador)',
     copyDiscord: 'Copiar nome de utilizador do Discord',
     copied: 'Copiado para a área de transferência',

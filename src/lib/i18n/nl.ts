@@ -48,6 +48,7 @@ const nl: Dict = {
     footerFind: 'Vind me',
     footerNote: 'Persoonlijk portfolio van een particulier. Niet gelieerd aan of goedgekeurd door Epic Games.',
     footerDraft: 'Beheerd door {name}, Nederland.',
+    madeBy: 'Website gemaakt door {link}',
     newTab: '(opent in een nieuw tabblad)',
     copyDiscord: 'Discord-gebruikersnaam kopiëren',
     copied: 'Gekopieerd naar het klembord',

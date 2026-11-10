@@ -75,3 +75,6 @@ export function siteUrl(fallbackOrigin = ''): string {
     || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '');
   return (fromEnv || fallbackOrigin).replace(/\/+$/, '');
 }
+
+/** Credit for who built the website (footer). */
+export const madeBy = { name: 'Next Solutions', href: 'https://nextsolutionshq.nl' };
