@@ -2,31 +2,41 @@
   "name": "nexify-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Standalone portfolio website for Nexify — Fortnite player and Esports Social Media Manager.",
-  "type": "module",
-  "main": "server.js",
+  "description": "Portfolio website for Nexify \u2014 Esports Social Media Manager & competitive Fortnite player. Next.js + TypeScript.",
   "engines": {
-    "node": ">=18.17"
+    "node": ">=20.9"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "check:i18n": "node scripts/check-i18n.mjs",
-    "test": "node --test tests/*.test.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "test:e2e": "node scripts/e2e.mjs",
+    "check": "npm run typecheck && npm test",
     "build:cv": "node scripts/build-cv.mjs",
     "build:og": "node scripts/build-og.mjs",
-    "build:clouds": "node scripts/build-clouds.mjs",
-    "check": "npm run check:i18n && npm test"
+    "build:clouds": "node scripts/build-clouds.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
-    "express": "^4.22.3",
-    "nodemailer": "^10.4.0"
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "motion": "^12.43.0",
+    "next": "^16.4.6",
+    "nodemailer": "^10.5.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "smtp-server": "^3.21.3"
+    "@types/node": "^26.6.6",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/smtp-server": "^3.5.13",
+    "smtp-server": "^3.21.3",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
   }
 }

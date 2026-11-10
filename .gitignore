@@ -5,3 +5,6 @@ node_modules/
 *.log
 .DS_Store
 test-results/
+.next/
+next-env.d.ts
+*.tsbuildinfo

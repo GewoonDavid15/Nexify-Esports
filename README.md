@@ -1,95 +1,100 @@
 # Nexify — portfolio website
 
-A standalone portfolio site for **Nexify**, a Fortnite player and Esports Social Media Manager.
-Node.js + Express with server-rendered pages, in English (default), Dutch and Portuguese.
-It has no build step, no analytics, and no third-party requests at runtime (fonts are self-hosted).
-
-**Design:** editorial broadcast style. Display type is Bricolage Grotesque, body text Inter, and data labels JetBrains Mono, all self-hosted in `public/fonts`. The cloud textures in `public/img/clouds-*.webp` are generated once with `npm run build:clouds` and loaded after the page has finished loading. All motion is disabled under `prefers-reduced-motion`.
+The portfolio site for **Nexify**, an Esports Social Media Manager and competitive Fortnite player.
+Built with **Next.js 16 (App Router) + React 19 + TypeScript (`.tsx`)** and **Motion** for animations.
+It's in English (default), Dutch and Portuguese, with no analytics and no third-party requests at runtime.
 
 ## Run
 
 ```bash
 npm install
-npm start            # http://localhost:3000  (PORT to change)
+npm run dev          # http://localhost:3000
 ```
 
-## Pages
+```bash
+npm run build && npm start
+```
 
-`/` · `/about` · `/resume` · `/skills` · `/portfolio` · `/services` · `/achievements` · `/testimonials` ·
-`/contact` · `/nexify-dev` · `/privacy` · `/terms` · `/cookies` · `/disclaimer`
+## Structure
 
-## Language
+| Path | What |
+|---|---|
+| `src/app/` | Routes (`page.tsx` per page), root `layout.tsx`, `template.tsx` (page transitions), `sitemap.ts`, `robots.ts` |
+| `src/app/contact/actions.ts` | Server action for the contact form |
+| `src/app/api/contact/route.ts` | JSON endpoint, using the same logic as the server action |
+| `src/app/lang/[code]/route.ts` | Language switch: sets the cookie and returns to the same page |
+| `src/proxy.ts` | Picks the language (`?lang=` > cookie > English) and sets a per-request nonce CSP |
+| `src/components/` | `layout/` (header, footer, sky, effects), `motion/` (client animations), `sections/`, `ui/` |
+| `src/lib/i18n/{en,nl,pt}.ts` | All text. TypeScript enforces that NL/PT match the English shape |
+| `src/lib/resume.ts` | Resume facts (roles, skills, tools) |
+| `src/lib/config.ts` | Public email and social links, each set in one place |
+| `src/lib/contact/` | Validation, spam protection, mailer |
 
-- The selector links to `/lang/<en|nl|pt>?next=<current path>`. That sets the functional `nexify_lang` cookie (1 year) and returns to the same page.
-- `?lang=nl` on any URL also selects a language. Without a choice, the site is in English.
-- All text lives in `src/i18n/{en,nl,pt}.js`. `npm run check:i18n` confirms that all three have identical keys and placeholders.
+## Animations
 
-## Contact form and email delivery
+Motion handles:
+- the holographic player card that tilts with the pointer
+- shared-layout pills in the navigation and language switch
+- the full-screen mobile menu
+- the rotating roles
+- counters and the scroll-driven timeline
+- page transitions
 
-The form posts to `/api/contact` (JavaScript) or `/contact` (no-JS fallback). The server validates the input. It reports success **only after the email provider accepts the message**. Until a provider is configured, the form says so and the submit button is disabled.
+CSS handles the aurora sky, grid floor, word reveals and marquees. Small attribute-based effects (`data-reveal`, `data-spot`, `data-magnetic`, `data-copy`) live in `components/layout/Effects.tsx`.
 
-Set **one** provider through your hosting platform's secrets. Never put these in frontend code or commit them; see `.env.example`.
+Server-rendered content is never hidden before JavaScript loads. Everything respects `prefers-reduced-motion` (`MotionConfig reducedMotion="user"` plus CSS).
+
+## Contact form
+
+The form is a server action that also works without JavaScript. It validates on the client and the server, and shows success **only after the email provider accepts the message**. Until a provider is configured, the form says so and the submit button is disabled.
+
+Configure one provider with environment variables in Vercel (**Project → Settings → Environment Variables**). Never put these in client code or commit them; see `.env.example`.
 
 | Provider | Variables |
 |---|---|
-| Resend | `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` (from a verified domain) |
-| SMTP | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_FROM_EMAIL`, optional `SMTP_SECURE=true` |
+| Resend | `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` |
+| SMTP | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_FROM_EMAIL` (`SMTP_SECURE=true` for port 465) |
 
-Optional settings: `CONTACT_TO_EMAIL` (recipient), `FORM_SECRET`, `TRUST_PROXY=1` (behind a reverse proxy, so rate limiting sees real IPs).
+Optional settings: `CONTACT_TO_EMAIL` and `FORM_SECRET`.
 
 Spam protection:
-- a hidden honeypot field
-- an HMAC-signed render timestamp that rejects submissions under 3 s or over 2 h old
-- a same-origin check
-- an in-memory limit of 8 posts per IP per 15 minutes
-- field length limits and a 20 KB body cap
+- a honeypot field
+- a signed render timestamp (submissions faster than 3 s or older than 2 h are rejected)
+- the server action's built-in origin check
+- a best-effort in-memory rate limit
+- length limits
 
-Messages are never stored, and their contents are never logged.
+Message contents are never stored or logged.
 
-## Updating content
+## CV
 
-- **Public contact email:** `PUBLIC_CONTACT_EMAIL` in `src/config.js`. This is the only place it's set. It is not used as a legal or privacy contact.
-- **Social links:** `socials` in `src/config.js`. Add only verified links.
-- **Resume data:** `src/resume.js`, with labels in the i18n files.
-- **Testimonials:** add only real quotes with permission. The page shows an honest empty state until then.
-- **Legal pages:** these are informational drafts. Before you remove the draft banner, fill in the "missing" items (legal name, privacy contact, hosting/email provider, retention, applicable law).
-
-## CV download
-
-`public/cv/Nexify-CV.pdf` is served by the Download CV buttons. It is the official resume, `attached_assets/Nexify_Resume_Esports_v2_1.docx`, converted unchanged with LibreOffice. To update it, replace the DOCX and run:
+`public/cv/Nexify-CV.pdf` is the official resume, `attached_assets/Nexify_Resume_Esports_v2_2.docx`, converted unchanged with LibreOffice. To update it, replace the DOCX and run:
 
 ```bash
 npm run build:cv
 ```
 
-The resume facts shown on the site live in `src/resume.js` and the i18n files. Keep them in line with the DOCX.
+## Other assets
+
+- `npm run build:og` rebuilds the share image (`public/og-image.png`).
+- `npm run build:clouds` rebuilds the cloud textures (`public/img/clouds-*.webp`).
 
 ## Checks
 
 ```bash
-npm run check        # i18n parity + server tests (routes, language, contact form via a local SMTP server)
-npm run test:e2e     # Playwright: all routes × languages × desktop/tablet/mobile, console errors,
-                     # overflow, broken links, mobile menu, language switch, CV download, reduced motion
+npm run check        # TypeScript + Vitest (translations, validation, spam, SMTP delivery)
 ```
 
-## Deploying to Vercel
+```bash
+npm run build && npm run test:e2e
+```
 
-The repo is ready for Vercel with no build step:
+The e2e run uses Playwright to cover:
+- every route × language × viewport, checking console errors (including CSP), overflow and links
+- the mobile menu and language switch
+- the CV download
+- reduced motion
 
-- `public/` is served as static files (CSS, JS, fonts, CV).
-- Every other request is rewritten to `api/index.js`, which exports the Express app as a serverless function (see `vercel.json`).
+## Deploying
 
-Set the contact-form variables (see above) under **Project → Settings → Environment Variables**, then redeploy.
-
-On Vercel, the token signing key is derived from the provider secret if `FORM_SECRET` isn't set, so it stays the same across function instances. The rate limiter is per instance, so it's a best-effort limit there.
-
-If you upgrade the font packages, run `node scripts/copy-fonts.mjs` to refresh `public/fonts` (including the combined `public/fonts/fonts.css`).
-
-**Branches:** `main` is the production branch, so pushes to `main` go live. Every other branch gets its own preview URL.
-
-## Sharing and SEO
-
-- `public/og-image.png` (1200×630) is the link preview on Discord, X and similar. Rebuild it with `npm run build:og`.
-- Every page has a canonical link and hreflang alternates. English uses the plain URL; Dutch and Portuguese use `?lang=nl` and `?lang=pt`.
-- `/sitemap.xml` lists every page in all three languages, and `/robots.txt` points to it.
-- Absolute URLs use `PUBLIC_SITE_URL`, then Vercel's production URL, then the request host.
+Vercel builds this as a Next.js project. **Production branch: `main`**; other branches get preview URLs.

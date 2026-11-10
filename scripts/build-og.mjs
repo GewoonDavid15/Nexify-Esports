@@ -7,9 +7,9 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Fonts are inlined as data URLs so they load inside setContent().
-const font = (p) => `data:font/woff2;base64,${fs.readFileSync(path.join(root, 'public/fonts', p)).toString('base64')}`;
+const font = (p) => `data:font/woff2;base64,${fs.readFileSync(path.join(root, 'node_modules/@fontsource-variable', p)).toString('base64')}`;
 const html = `<!doctype html><html><head><style>
-@font-face { font-family: Display; src: url(${font('bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2')}) format('woff2'); font-weight: 100 800; }
+@font-face { font-family: Display; src: url(${font('unbounded/files/unbounded-latin-wght-normal.woff2')}) format('woff2'); font-weight: 100 800; }
 @font-face { font-family: Inter; src: url(${font('inter/files/inter-latin-wght-normal.woff2')}) format('woff2'); font-weight: 100 900; }
 * { margin: 0; box-sizing: border-box; }
 body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-family: Inter, sans-serif; color: #f4f0fb;
@@ -24,8 +24,8 @@ body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-
 .pill { margin-left: auto; display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; font-size: 24px; font-weight: 600;
   background: rgba(134,227,173,.10); border: 2px solid rgba(134,227,173,.45); color: #f4f0fb; }
 .dot { width: 14px; height: 14px; border-radius: 50%; background: #86e3ad; box-shadow: 0 0 18px #86e3ad; }
-h1 { margin-top: auto; font-family: Display; font-weight: 760; font-size: 188px; line-height: .9; letter-spacing: -.055em;
-  background: linear-gradient(100deg, #f5ecff 0%, #d8b4fe 32%, #a855f7 66%, #7c3aed 100%); -webkit-background-clip: text; color: transparent; padding-bottom: 14px; }
+h1 { margin-top: auto; font-family: Display; font-weight: 900; font-size: 150px; line-height: .9; letter-spacing: -.02em;
+  background: linear-gradient(120deg, #ddd0ff 0%, #b98cff 30%, #d946ef 68%, #f472b6 100%); -webkit-background-clip: text; color: transparent; padding-bottom: 14px; }
 .sub { font-size: 38px; font-weight: 600; color: #f4f0fb; margin-top: 10px; }
 .sub span { color: #c084fc; }
 .meta { font-size: 24px; color: #c8c0db; margin-top: 18px; }
@@ -36,9 +36,9 @@ h1 { margin-top: auto; font-family: Display; font-weight: 760; font-size: 188px;
   <div class="top">
     <svg width="56" height="56" viewBox="0 0 40 40"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e2ff"/><stop offset=".55" stop-color="#c084fc"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="rgba(168,85,247,.1)" stroke="url(#g)" stroke-width="1.6"/><path d="M12.5 28V12.5h.4L27 27.5h.5V12" fill="none" stroke="url(#g)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Nexify
-    <div class="pill"><span class="dot"></span>Open to offers</div>
+    <div class="pill"><span class="dot"></span>Free agent</div>
   </div>
-  <h1>Nexify</h1>
+  <h1>NEXIFY</h1>
   <p class="sub">Esports Social Media Manager <span>·</span> Competitive Fortnite</p>
   <p class="meta">In esports since 2020 · 7 organizations · Based in the Netherlands</p>
 </div>
