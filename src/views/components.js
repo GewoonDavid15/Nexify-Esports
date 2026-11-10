@@ -11,11 +11,11 @@ export function availabilityBanner(t) {
 /** Inner-page header: mono label, big title, lead, optional actions. */
 export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id = 'page-title' }) {
   return `<section class="page-hero" aria-labelledby="${id}">
-    <div class="container">
-      <p class="label label--accent reveal"><span class="label__tick" aria-hidden="true"></span>${eyebrow}</p>
-      <h1 id="${id}" class="page-title reveal">${title}</h1>
-      ${lead ? `<p class="lead reveal">${lead}</p>` : ''}
-      ${actions ? `<div class="actions reveal">${actions}</div>` : ''}
+    <div class="container intro">
+      <p class="label label--accent"><span class="label__tick" aria-hidden="true"></span>${eyebrow}</p>
+      <h1 id="${id}" class="page-title">${title}</h1>
+      ${lead ? `<p class="lead">${lead}</p>` : ''}
+      ${actions ? `<div class="actions">${actions}</div>` : ''}
       ${extra}
     </div>
   </section>`;
@@ -23,7 +23,7 @@ export function pageHero(t, { eyebrow, title, lead, actions = '', extra = '', id
 
 /** Section heading with an index number, e.g. "01  Explore". */
 export function sectionHead(title, { lead = '', id, num } = {}) {
-  return `<div class="sec-head reveal">
+  return `<div class="sec-head reveal" data-split>
     ${num ? `<span class="sec-head__num" aria-hidden="true">${pad(num)}</span>` : ''}
     <div><h2 class="sec-title"${id ? ` id="${id}"` : ''}>${title}</h2>${lead ? `<p class="sec-lead">${lead}</p>` : ''}</div>
   </div>`;
@@ -53,7 +53,7 @@ export function ctaBand(t, { title, text, secondary = '' }) {
   return `<section class="cta-band" aria-label="${title.replace(/"/g, '&quot;')}">
     <div class="cta-band__tex" aria-hidden="true"></div>
     <div class="container cta-band__inner reveal">
-      <h2 class="cta-band__title">${title}</h2>
+      <h2 class="cta-band__title" data-split>${title}</h2>
       <div class="cta-band__side">
         <p>${text}</p>
         <div class="actions">${button(t('common.hireMe'), '/contact', { variant: 'dark', iconName: 'mail' })}${secondary}</div>
@@ -76,7 +76,7 @@ export function quoteBlock(t) {
   const translation = t('quote.translation');
   return `<figure class="quote reveal">
     <span class="quote__mark" aria-hidden="true">“</span>
-    <blockquote lang="en"><p>${t('quote.text')}</p></blockquote>
+    <blockquote lang="en"><p data-split>${t('quote.text')}</p></blockquote>
     ${translation ? `<p class="quote__translation">${translation}</p>` : ''}
     <figcaption><span class="label">Nexify</span><span class="quote__sep" aria-hidden="true"></span><span class="label label--accent">${t('quote.label')}</span></figcaption>
   </figure>`;

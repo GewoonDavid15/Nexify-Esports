@@ -643,6 +643,90 @@ body.menu-open { overflow: hidden; }
   .btn { white-space: normal; text-align: center; }
 }
 
+/* ==========================================================================
+   Motion layer — everything below is switched off under reduced motion
+   ========================================================================== */
+
+/* Inner-page intro: CSS-driven from first paint (no flash, no JS wait) */
+.js .intro > * { animation: intro-rise 0.95s var(--ease) both; }
+.js .intro > :nth-child(2) { animation-name: intro-clip; animation-delay: 0.07s; }
+.js .intro > :nth-child(3) { animation-delay: 0.18s; }
+.js .intro > :nth-child(4) { animation-delay: 0.26s; }
+.js .intro > :nth-child(5) { animation-delay: 0.32s; }
+@keyframes intro-rise { from { opacity: 0; transform: translateY(18px); } }
+@keyframes intro-clip { from { clip-path: inset(0 0 100% 0); transform: translateY(0.35em); } to { clip-path: inset(0 0 -20% 0); } }
+
+/* Word-by-word title reveal (JS wraps words in .w > .w__i) */
+.w { display: inline-block; overflow: clip; overflow-clip-margin: 0.12em; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.w__i { display: inline-block; transform: translateY(110%) rotate(3deg); transform-origin: left bottom; transition: transform 0.9s var(--ease); transition-delay: calc(var(--wi, 0) * 40ms); }
+.is-split-in .w__i { transform: none; }
+
+/* Section head rule draws itself */
+.sec-head { border-top-color: transparent; position: relative; }
+.sec-head::before { content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: linear-gradient(90deg, var(--amber), var(--line-2) 30%); transform-origin: left; transform: scaleX(0); transition: transform 1.2s var(--ease) 0.1s; }
+.no-js .sec-head::before, .sec-head.is-visible::before { transform: none; }
+.sec-head__num { display: inline-block; }
+.js .sec-head.is-visible .sec-head__num { animation: num-in 0.7s var(--ease) both; }
+@keyframes num-in { from { opacity: 0; transform: translateX(-10px); } }
+
+/* Rows slide in from the left; batched items get a stagger from JS */
+.js .record__row.reveal, .js .index-list .reveal { transform: translateX(-28px); }
+.js .record__row.reveal.is-visible, .js .index-list .reveal.is-visible { transform: none; }
+.js .hairgrid__cell.reveal { transform: translateY(28px) scale(0.985); }
+.js .hairgrid__cell.reveal.is-visible { transform: none; }
+
+/* Scoreboard: cells flip in, then a scan line sweeps across once */
+.stats { position: relative; overflow: hidden; }
+.js .is-visible .stat, .js .stats.is-visible .stat { animation: stat-in 0.7s var(--ease) both; }
+.js .is-visible .stat:nth-child(2), .js .stats.is-visible .stat:nth-child(2) { animation-delay: 0.08s; }
+.js .is-visible .stat:nth-child(3), .js .stats.is-visible .stat:nth-child(3) { animation-delay: 0.16s; }
+.js .is-visible .stat:nth-child(4), .js .stats.is-visible .stat:nth-child(4) { animation-delay: 0.24s; }
+@keyframes stat-in { from { opacity: 0; transform: translateY(10px); } }
+.stats::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 30%; pointer-events: none; opacity: 0; background: linear-gradient(90deg, transparent, rgba(255, 173, 59, 0.16), transparent); transform: translateX(-100%); }
+.js .is-visible .stats::after, .js .stats.is-visible::after { animation: scan 1.6s var(--ease) 0.5s both; }
+@keyframes scan { 0% { opacity: 1; transform: translateX(-100%); } 100% { opacity: 1; transform: translateX(380%); } }
+
+/* Home hero: cursor glow, letter hover, scroll parallax (JS sets --hp) */
+.hero__glow { position: absolute; z-index: 0; left: 0; top: 0; width: 640px; height: 640px; margin: -320px 0 0 -320px; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(closest-side, rgba(255, 123, 28, 0.32), rgba(255, 123, 28, 0.08) 55%, transparent); filter: blur(10px);
+  transform: translate(var(--gx, 50vw), var(--gy, 40vh)); transition: opacity 0.6s; will-change: transform; }
+.hero.has-glow .hero__glow { opacity: 1; }
+.hero__word .char { transition: translate 0.5s cubic-bezier(0.3, 1.8, 0.5, 1), filter 0.3s; }
+@media (hover: hover) and (pointer: fine) {
+  .hero__word .char:hover { translate: 0 -0.07em; filter: brightness(1.15); transition-duration: 0.25s, 0.2s; }
+}
+.hero__wordmark { transform: translateY(calc(var(--hp, 0) * 22%)) scale(calc(1 - var(--hp, 0) * 0.05)); transform-origin: left bottom; opacity: calc(1 - var(--hp, 0) * 0.55); }
+.hero__fog { translate: 0 calc(var(--hp, 0) * -70px); }
+.hero__bottom { translate: 0 calc(var(--hp, 0) * -24px); }
+
+/* Magnetic buttons (JS sets the translate property) */
+.btn { transition: transform 0.3s var(--ease), translate 0.35s var(--ease), background 0.3s, border-color 0.3s, color 0.2s, box-shadow 0.3s; }
+.btn.is-magnet { transition-duration: 0.3s, 0.12s, 0.3s, 0.3s, 0.2s, 0.3s; }
+
+/* Nav links: sliding underline */
+.nav-link::before { content: ''; position: absolute; left: 0.7em; right: 0.7em; bottom: 0.25em; height: 1px; background: var(--amber); transform: scaleX(0); transform-origin: right; transition: transform 0.35s var(--ease); }
+.nav-link:hover::before { transform: scaleX(1); transform-origin: left; }
+.nav-link[aria-current='page']::before { display: none; }
+@media (max-width: 1120px) { .js .nav-panel .nav-link::before { display: none; } }
+
+/* Socials: icon pops when tiles come in */
+.js .socials .social > .icon:first-child { transition: transform 0.4s var(--ease); }
+.js .reveal.is-visible .social > .icon:first-child { animation: icon-pop 0.6s var(--ease) both; }
+.js .reveal.is-visible li:nth-child(2) .social > .icon:first-child { animation-delay: 0.08s; }
+.js .reveal.is-visible li:nth-child(3) .social > .icon:first-child { animation-delay: 0.16s; }
+.js .reveal.is-visible li:nth-child(4) .social > .icon:first-child { animation-delay: 0.24s; }
+@keyframes icon-pop { from { transform: scale(0.4) rotate(-20deg); opacity: 0; } }
+
+/* Footer wordmark fills with colour when it scrolls into view */
+.footer-wordmark { background-image: linear-gradient(0deg, rgba(255, 123, 28, 0.42), rgba(255, 210, 127, 0.06) 85%); background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 0%; transition: background-size 1.8s var(--ease) 0.2s, opacity 0.8s, transform 0.8s; }
+.footer-wordmark.is-visible, .no-js .footer-wordmark { background-size: 100% 100%; }
+
+/* CTA band: texture parallax (JS sets --bp) */
+.cta-band__tex { translate: 0 calc(var(--bp, 0) * 60px); }
+
+/* Counter digits keep width while counting */
+.stat dd { font-variant-numeric: tabular-nums; }
+
 /* ---------- Pointer spotlight (fine pointers) ------------------------------- */
 @media (hover: hover) and (pointer: fine) {
   .hairgrid__cell, .social, .record__row { background-image: radial-gradient(280px circle at var(--mx, -100px) var(--my, -100px), rgba(255, 140, 50, 0.1), transparent 70%); }
@@ -657,6 +741,15 @@ body.menu-open { overflow: hidden; }
   .js .marquee .marquee__group { flex-wrap: wrap; }
   .js .reveal { opacity: 1; transform: none; }
   .btn:hover, .btn--ghost:hover, .btn--primary:hover, .btn--dark:hover, .index-row:hover .index-row__title { transform: none; }
+  .js .intro > *, .js .is-visible .stat, .js .stats.is-visible .stat, .js .reveal.is-visible .social > .icon:first-child { animation: none !important; }
+  .js .is-visible .stats::after, .js .stats.is-visible::after { animation: none !important; }
+  .w__i { transform: none !important; }
+  .sec-head::before { transform: none !important; }
+  .hero__wordmark, .hero__fog, .hero__bottom, .cta-band__tex { transform: none !important; translate: none !important; opacity: 1; }
+  .hero__glow { display: none; }
+  .js .record__row.reveal, .js .index-list .reveal, .js .hairgrid__cell.reveal { transform: none; }
+  .btn { translate: none !important; }
+  .footer-wordmark { background-size: 100% 100%; }
 }
 @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
 

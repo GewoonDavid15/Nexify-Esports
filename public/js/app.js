@@ -22,8 +22,11 @@
     }
     var vh = window.innerHeight;
     var io = new IntersectionObserver(function (entries) {
+      // Items arriving together (a grid, a list) get a cascading stagger.
+      var batch = 0;
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = Math.min(batch++ * 85, 510) + 'ms';
           entry.target.classList.add('is-visible');
           io.unobserve(entry.target);
         }
@@ -359,8 +362,161 @@
     else window.addEventListener('load', function () { setTimeout(go, 50); });
   }
 
+
+  // ---- Word-by-word title reveal ----
+  function initSplit() {
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
+    var vh = window.innerHeight;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-split-in'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    Array.prototype.slice.call(document.querySelectorAll('[data-split]')).forEach(function (host) {
+      var el = host.matches('.sec-head') ? host.querySelector('.sec-title') : host;
+      if (!el || el.getBoundingClientRect().top < vh) return; // already on screen: leave as is
+      var index = 0;
+      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      var nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function (node) {
+        var frag = document.createDocumentFragment();
+        node.nodeValue.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var w = document.createElement('span');
+          w.className = 'w';
+          var inner = document.createElement('span');
+          inner.className = 'w__i';
+          inner.style.setProperty('--wi', String(index++));
+          inner.textContent = part;
+          w.appendChild(inner);
+          frag.appendChild(w);
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+      io.observe(el);
+    });
+  }
+
+  // ---- Home hero: scroll parallax + cursor glow; CTA band parallax ----
+  function initHero() {
+    if (reduceMotion) return;
+    var hero = document.querySelector('[data-hero]');
+    var bands = Array.prototype.slice.call(document.querySelectorAll('.cta-band'));
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      if (hero) {
+        var h = hero.offsetHeight || 1;
+        var p = Math.max(0, Math.min(1, window.scrollY / h));
+        hero.style.setProperty('--hp', p.toFixed(3));
+      }
+      bands.forEach(function (band) {
+        var r = band.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        band.style.setProperty('--bp', ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
+      });
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+
+    if (!hero || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var glow = hero.querySelector('.hero__glow');
+    var raf = null;
+    var pos = null;
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      pos = { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        raf = null;
+        hero.style.setProperty('--gx', pos.x + 'px');
+        hero.style.setProperty('--gy', pos.y + 'px');
+        hero.classList.add('has-glow');
+      });
+    }, { passive: true });
+    hero.addEventListener('pointerleave', function () { hero.classList.remove('has-glow'); });
+    if (glow) glow.style.setProperty('will-change', 'transform');
+  }
+
+  // ---- Magnetic primary buttons (fine pointers) ----
+  function initMagnet() {
+    if (reduceMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    Array.prototype.slice.call(document.querySelectorAll('.btn--primary, .btn--dark, .index-row__arrow')).forEach(function (btn) {
+      btn.addEventListener('pointermove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) * 0.22;
+        var dy = (e.clientY - (r.top + r.height / 2)) * 0.32;
+        btn.classList.add('is-magnet');
+        btn.style.translate = dx.toFixed(1) + 'px ' + dy.toFixed(1) + 'px';
+      });
+      btn.addEventListener('pointerleave', function () {
+        btn.classList.remove('is-magnet');
+        btn.style.translate = '';
+      });
+    });
+  }
+
+  // ---- Count-up for purely numeric stats ----
+  function initCounters() {
+    var cells = Array.prototype.slice.call(document.querySelectorAll('.stat dd')).filter(function (dd) {
+      return /^\d{1,3}$/.test(dd.textContent.trim());
+    });
+    if (!cells.length || reduceMotion || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        var dd = entry.target;
+        var target = parseInt(dd.textContent.trim(), 10);
+        var start = null;
+        var dur = 1100;
+        function step(ts) {
+          if (start === null) start = ts;
+          var t = Math.min(1, (ts - start) / dur);
+          var eased = 1 - Math.pow(1 - t, 3);
+          dd.textContent = String(Math.round(eased * target));
+          if (t < 1) requestAnimationFrame(step);
+        }
+        dd.textContent = '0';
+        setTimeout(function () { requestAnimationFrame(step); }, 250);
+      });
+    }, { threshold: 0.6 });
+    cells.forEach(function (dd) { io.observe(dd); });
+  }
+
+  // ---- Marquee speeds up with scroll velocity ----
+  function initMarquee() {
+    var m = document.querySelector('.marquee');
+    if (!m || reduceMotion || !m.getAnimations) return;
+    var anim = null;
+    var lastY = window.scrollY;
+    var boost = 0;
+    var running = false;
+    // Only animate the rate while scrolling; stop once the boost has decayed.
+    function tick() {
+      if (!anim) anim = m.getAnimations()[0] || null;
+      var y = window.scrollY;
+      boost = Math.min(boost * 0.9 + Math.abs(y - lastY) * 0.06, 6);
+      lastY = y;
+      if (anim) anim.playbackRate = 1 + boost;
+      if (boost > 0.02) requestAnimationFrame(tick);
+      else { running = false; if (anim) anim.playbackRate = 1; }
+    }
+    window.addEventListener('scroll', function () {
+      if (!running) { running = true; lastY = lastY || window.scrollY; requestAnimationFrame(tick); }
+    }, { passive: true });
+  }
+
   ready(function () {
     initClouds();
+    initSplit();
+    initHero();
+    initMagnet();
+    initCounters();
+    initMarquee();
     initReveal();
     initScrollEffects();
     initSpotlight();

@@ -137,7 +137,7 @@ ${body}
         ${langSwitch(t, path, 'lang-label-footer')}
       </div>
     </div>
-    <p class="footer-wordmark" aria-hidden="true">${site.name}</p>
+    <p class="footer-wordmark reveal" aria-hidden="true">${site.name}</p>
     <div class="footer-bottom">
       <p>© ${new Date().getFullYear()} ${site.name}. ${t('common.footerNote')}</p>
       <p>${t('common.footerDraft')}</p>

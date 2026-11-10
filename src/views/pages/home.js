@@ -5,7 +5,8 @@ export default function home(t) {
   const facts = t('home.facts');
   const stats = [{ label: t('home.statusTitle'), value: t('home.statusValue'), live: true }, ...facts.map((f) => ({ label: f.label, value: f.value }))];
   return `
-  <section class="hero" aria-labelledby="hero-title">
+  <section class="hero" aria-labelledby="hero-title" data-hero>
+    <div class="hero__glow" aria-hidden="true"></div>
     <div class="hero__fog" aria-hidden="true"></div>
     <div class="container">
       <div class="hero__top reveal">
