@@ -81,4 +81,13 @@ Set the contact-form variables (see above) under **Project → Settings → Envi
 
 On Vercel, the token signing key is derived from the provider secret if `FORM_SECRET` isn't set, so it stays the same across function instances. The rate limiter is per instance, so it's a best-effort limit there.
 
-If you upgrade the font packages, run `node scripts/copy-fonts.mjs` to refresh `public/fonts`.
+If you upgrade the font packages, run `node scripts/copy-fonts.mjs` to refresh `public/fonts` (including the combined `public/fonts/fonts.css`).
+
+**Branches:** `main` is the production branch, so pushes to `main` go live. Every other branch gets its own preview URL.
+
+## Sharing and SEO
+
+- `public/og-image.png` (1200×630) is the link preview on Discord, X and similar. Rebuild it with `npm run build:og`.
+- Every page has a canonical link and hreflang alternates. English uses the plain URL; Dutch and Portuguese use `?lang=nl` and `?lang=pt`.
+- `/sitemap.xml` lists every page in all three languages, and `/robots.txt` points to it.
+- Absolute URLs use `PUBLIC_SITE_URL`, then Vercel's production URL, then the request host.

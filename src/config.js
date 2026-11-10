@@ -9,8 +9,12 @@ export const PUBLIC_CONTACT_EMAIL = 'gewoon.davidd@gmail.com';
 
 export const site = {
   name: 'Nexify',
-  // Set PUBLIC_SITE_URL (e.g. https://nexify.example) to emit absolute og:url tags.
-  url: process.env.PUBLIC_SITE_URL ? process.env.PUBLIC_SITE_URL.replace(/\/+$/, '') : '',
+  // Base URL for canonical/og/sitemap links. PUBLIC_SITE_URL wins; on Vercel the
+  // production URL is used; otherwise it is derived from the request host.
+  url: (process.env.PUBLIC_SITE_URL
+    || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '')
+  ).replace(/\/+$/, ''),
+  ogImage: '/og-image.png',
   contactEmail: PUBLIC_CONTACT_EMAIL,
   cv: {
     href: '/cv/Nexify-CV.pdf',
@@ -21,7 +25,7 @@ export const site = {
 /** Verified public profiles only. Do not add unverified links. */
 export const socials = [
   { id: 'youtube', label: 'YouTube', handle: '@nex1fytv', href: 'https://youtube.com/@nex1fytv' },
-  { id: 'x', label: 'X (Twitter)', handle: '@OfficialNexify', href: 'https://x.com/OfficialNexify' },
+  { id: 'x', label: 'X (Twitter)', short: 'X', handle: '@OfficialNexify', href: 'https://x.com/OfficialNexify' },
   { id: 'discord', label: 'Discord', handle: 'nexifytv', href: null, copy: 'nexifytv' },
   { id: 'tracker', label: 'Fortnite Tracker', handle: 'Nexifyy', href: 'https://fortnitetracker.com/profile/all/Nexifyy' },
 ];

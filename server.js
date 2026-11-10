@@ -3,8 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { routes } from './src/routes.js';
-import { LANG_COOKIE, DEFAULT_LANG } from './src/config.js';
-import { translator, isLang } from './src/i18n/index.js';
+import { LANG_COOKIE, DEFAULT_LANG, LANGS, site } from './src/config.js';
+import { translator, isLang, dictionaries } from './src/i18n/index.js';
 import { layout } from './src/views/layout.js';
 import { validateContact } from './src/contact/validate.js';
 import { issueToken, checkToken, createRateLimiter } from './src/contact/spam.js';
@@ -90,10 +90,11 @@ export function createApp({ env = process.env, rateLimiter = createRateLimiter({
     res.redirect(303, safeNext(req.query.next));
   });
 
+  const originOf = (req) => (req.get ? `${req.protocol}://${req.get('host')}` : '');
   const send = (req, res, { status = 200, pageKey, bodyHtml, routePath }) => {
     res.status(status)
       .set({ 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'private, no-cache', Vary: 'Cookie' })
-      .send(layout({ t: req.t, path: routePath, pageKey, body: bodyHtml, bodyClass: `page-${pageKey === 'nexifyDev' ? 'dev' : pageKey}` }));
+      .send(layout({ t: req.t, path: routePath, pageKey, body: bodyHtml, origin: originOf(req), noindex: status !== 200, bodyClass: `page-${pageKey === 'nexifyDev' ? 'dev' : pageKey}` }));
   };
 
   const contactState = (extra = {}) => ({ configured: isConfigured(env), token: issueToken(), ...extra });
@@ -124,7 +125,7 @@ export function createApp({ env = process.env, rateLimiter = createRateLimiter({
         errorKey: payload.error || 'summary',
       });
       if (payload.ok) state.values = {};
-      return send({ t: tt }, res, { status, pageKey: 'contact', bodyHtml: contact(tt, state), routePath: '/contact' });
+      return send({ t: tt, get: req.get.bind(req), protocol: req.protocol }, res, { status, pageKey: 'contact', bodyHtml: contact(tt, state), routePath: '/contact' });
     };
 
     // Reject cross-site posts (browsers send Origin on POST).
@@ -160,7 +161,21 @@ export function createApp({ env = process.env, rateLimiter = createRateLimiter({
 
   app.get('/api/contact/status', (req, res) => res.set('Cache-Control', 'no-store').json({ configured: isConfigured(env) }));
 
-  app.get('/robots.txt', (req, res) => res.type('text/plain').send('User-agent: *\nAllow: /\n'));
+  app.get('/robots.txt', (req, res) => res.type('text/plain')
+    .send(`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /lang/\n\nSitemap: ${site.url || originOf(req)}/sitemap.xml\n`));
+
+  app.get('/sitemap.xml', (req, res) => {
+    const base = site.url || originOf(req);
+    const href = (p, code) => `${base}${p}${code === 'en' ? '' : `?lang=${code}`}`;
+    const xmlEsc = (v) => v.replace(/&/g, '&amp;');
+    const urls = routes.flatMap((r) => LANGS.map((code) => `  <url>
+    <loc>${xmlEsc(href(r.path, code))}</loc>
+${LANGS.map((alt) => `    <xhtml:link rel="alternate" hreflang="${dictionaries[alt].locale}" href="${xmlEsc(href(r.path, alt))}"/>`).join('\n')}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEsc(href(r.path, 'en'))}"/>
+  </url>`));
+    res.type('application/xml').set('Cache-Control', 'public, max-age=3600')
+      .send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`);
+  });
 
   // 404
   app.use((req, res) => send(req, res, { status: 404, pageKey: 'notFound', bodyHtml: notFound(req.t), routePath: req.path }));
@@ -172,12 +187,12 @@ export function createApp({ env = process.env, rateLimiter = createRateLimiter({
     if (status >= 500) console.error(`[server] ${err.name || 'Error'}: ${err.message}`);
     const t = req.t || translator(DEFAULT_LANG);
     if (req.method === 'POST' && req.path === '/contact' && !(req.get('accept') || '').includes('application/json')) {
-      return send({ t }, res, { status, pageKey: 'contact', bodyHtml: contact(t, contactState({ status: 'error', errorKey: 'rejected' })), routePath: '/contact' });
+      return send({ t, get: req.get.bind(req), protocol: req.protocol }, res, { status, pageKey: 'contact', bodyHtml: contact(t, contactState({ status: 'error', errorKey: 'rejected' })), routePath: '/contact' });
     }
     if ((req.get('accept') || '').includes('application/json') || req.path.startsWith('/api/')) {
       return res.status(status).json({ ok: false, error: 'rejected' });
     }
-    return res.status(status).type('html').send(layout({ t, path: '/', pageKey: 'notFound', body: notFound(t) }));
+    return res.status(status).type('html').send(layout({ t, path: '/', pageKey: 'notFound', body: notFound(t), origin: originOf(req), noindex: true }));
   });
 
   return app;

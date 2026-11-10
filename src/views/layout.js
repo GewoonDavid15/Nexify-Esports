@@ -25,16 +25,16 @@ export function socialLinks(t, { compact = false } = {}) {
     if (s.copy) {
       return `<li><button type="button" class="social social--copy" data-copy="${esc(s.copy)}"
         data-copied="${esc(t('common.copied'))}" data-failed="${esc(t('common.copyFailed', { value: s.copy }))}"
-        aria-label="${esc(`${t('common.copyDiscord')}: ${s.handle}`)}">
+        aria-label="${esc(compact ? `${s.label} — ${t('common.copyDiscord')}` : `${s.label} ${s.handle} — ${t('common.copyDiscord')}`)}">
         ${icon(s.id)}<span class="social__text"><span class="social__label">${s.label}</span>${compact ? '' : `<span class="social__handle">${esc(s.handle)}</span>`}</span>${compact ? '' : icon('copy', { className: 'social__end' })}
         </button></li>`;
     }
     return `<li><a class="social" href="${s.href}" target="_blank" rel="noopener noreferrer me">
-      ${icon(s.id)}<span class="social__text"><span class="social__label">${s.label}</span>${compact ? '' : `<span class="social__handle">${esc(s.handle)}</span>`}</span>${compact ? '' : icon('external', { className: 'social__end' })}<span class="sr-only"> ${t('common.newTab')}</span></a></li>`;
+      ${icon(s.id)}<span class="social__text"><span class="social__label">${compact && s.short ? s.short : s.label}</span>${compact ? '' : `<span class="social__handle">${esc(s.handle)}</span>`}</span>${compact ? '' : icon('external', { className: 'social__end' })}<span class="sr-only"> ${t('common.newTab')}</span></a></li>`;
   }).join('')}</ul>`;
 }
 
-export function layout({ t, path, pageKey, body, bodyClass = '' }) {
+export function layout({ t, path, pageKey, body, bodyClass = '', origin = '', noindex = false }) {
   const d = t.dict;
   const meta = t(`meta.${pageKey}`);
   const title = pageKey === 'home' ? meta.title : `${meta.title} · ${site.name}`;
@@ -43,8 +43,10 @@ export function layout({ t, path, pageKey, body, bodyClass = '' }) {
   const footerPages = routes.filter((r) => ['home', 'about', 'achievements', 'resume', 'skills', 'services'].includes(r.key));
   const footerMore = routes.filter((r) => ['portfolio', 'testimonials', 'nexifyDev', 'contact'].includes(r.key));
   const footerLegal = routes.filter((r) => r.legal);
-  const absolute = site.url ? `${site.url}${path}` : '';
-  const alternates = LANGS.map((code) => `<link rel="alternate" hreflang="${dictionaries[code].locale}" href="${site.url}${path}?lang=${code}">`).join('');
+  const baseUrl = site.url || origin || '';
+  const langUrl = (code) => `${baseUrl}${path}${code === 'en' ? '' : `?lang=${code}`}`;
+  const canonical = langUrl(t.lang);
+  const alternates = LANGS.map((code) => `<link rel="alternate" hreflang="${dictionaries[code].locale}" href="${langUrl(code)}">`).join('');
 
   return html`<!doctype html>
 <html lang="${d.locale}" class="no-js">
@@ -60,15 +62,21 @@ export function layout({ t, path, pageKey, body, bodyClass = '' }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(meta.description)}">
 <meta property="og:locale" content="${d.locale.replace('-', '_')}">
-${absolute ? `<meta property="og:url" content="${absolute}">` : ''}
-<meta name="twitter:card" content="summary">
+${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${canonical}">`}
+<meta property="og:url" content="${canonical}">
+<meta property="og:image" content="${baseUrl}${site.ogImage}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Nexify — Fortnite Player &amp; Esports Social Media Manager">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${baseUrl}${site.ogImage}">
 <meta name="twitter:site" content="@OfficialNexify">
 ${alternates}
-<link rel="alternate" hreflang="x-default" href="${site.url}${path}">
+<link rel="alternate" hreflang="x-default" href="${langUrl('en')}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter/files/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/sora/files/sora-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/fonts/sora/index.css">
-<link rel="stylesheet" href="/fonts/inter/index.css">
+<link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/css/styles.css">
 <script src="/js/app.js" defer></script>
 </head>

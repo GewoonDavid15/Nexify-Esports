@@ -15,6 +15,7 @@
     "test": "node --test tests/*.test.js",
     "test:e2e": "node scripts/e2e.mjs",
     "build:cv": "node scripts/build-cv.mjs",
+    "build:og": "node scripts/build-og.mjs",
     "check": "npm run check:i18n && npm test"
   },
   "dependencies": {

@@ -167,3 +167,22 @@ test('CV download is served as a PDF', async () => {
   const buf = Buffer.from(await res.arrayBuffer());
   assert.equal(buf.subarray(0, 5).toString(), '%PDF-');
 });
+
+test('SEO: canonical, hreflang, og:image and sitemap', async () => {
+  const nl = await (await fetch(`${plain.base}/about?lang=nl`)).text();
+  assert.match(nl, /<link rel="canonical" href="http:\/\/127\.0\.0\.1:\d+\/about\?lang=nl">/);
+  assert.match(nl, /hreflang="pt-PT" href="http:\/\/127\.0\.0\.1:\d+\/about\?lang=pt"/);
+  assert.match(nl, /hreflang="x-default" href="http:\/\/127\.0\.0\.1:\d+\/about"/);
+  assert.match(nl, /<meta property="og:image" content="http:\/\/127\.0\.0\.1:\d+\/og-image\.png">/);
+  const notFound = await (await fetch(`${plain.base}/missing`)).text();
+  assert.match(notFound, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(notFound, /rel="canonical"/);
+  const img = await fetch(`${plain.base}/og-image.png`);
+  assert.equal(img.headers.get('content-type'), 'image/png');
+  const sm = await fetch(`${plain.base}/sitemap.xml`);
+  assert.equal(sm.status, 200);
+  const xml = await sm.text();
+  assert.equal((xml.match(/<loc>/g) || []).length, routes.length * 3);
+  assert.match(xml, /<loc>http:\/\/127\.0\.0\.1:\d+\/privacy\?lang=pt<\/loc>/);
+  assert.match(await (await fetch(`${plain.base}/robots.txt`)).text(), /Sitemap: http:\/\/127\.0\.0\.1:\d+\/sitemap\.xml/);
+});

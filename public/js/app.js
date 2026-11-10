@@ -143,6 +143,11 @@
   }
 
   // ---- Contact form ------------------------------------------------------------
+  var SVG_OPEN = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">';
+  var STATUS_ICONS = {
+    success: SVG_OPEN + '<path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+    error: SVG_OPEN + '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>',
+  };
   var EMAIL_RE = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[^\s@<>()[\]\\,;:"]{2,}$/;
 
   function fill(str, vars) {
@@ -210,7 +215,7 @@
       if (!statusEl) return;
       statusEl.className = 'form-status form-status--' + type;
       statusEl.setAttribute('role', type === 'error' ? 'alert' : 'status');
-      statusEl.innerHTML = '';
+      statusEl.innerHTML = STATUS_ICONS[type] || '';
       var box = document.createElement('div');
       var h = document.createElement('p');
       h.className = 'form-status__title';
