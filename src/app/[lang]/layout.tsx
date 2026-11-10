@@ -12,10 +12,13 @@ import { Effects } from '@/components/layout/Effects';
 import { ScrollProgress } from '@/components/layout/ScrollUi';
 import { FloatCta } from '@/components/layout/FloatCta';
 import { Providers } from '@/components/layout/Providers';
-import { CommandPalette, type PaletteItem } from '@/components/layout/CommandPalette';
-import { LangSuggest } from '@/components/layout/LangSuggest';
+import type { PaletteItem } from '@/components/layout/CommandPalette';
+import { CommandPalette, LangSuggest } from '@/components/layout/Deferred';
 import { site, socials } from '@/lib/config';
 import { fmt } from '@/lib/i18n/fmt';
+import { themeBootScript } from '@/lib/client/theme';
+import { features } from '@/lib/features';
+import { Analytics } from '@vercel/analytics/next';
 
 export const viewport: Viewport = { themeColor: '#0a0b10', colorScheme: 'dark' };
 
@@ -48,15 +51,19 @@ export default async function RootLayout({ children, params }: { children: React
     { id: 'discord', label: `${c.copyDiscord} (${socials.find((s) => s.id === 'discord')!.handle})`, group: c.searchActions, icon: 'discord', copy: socials.find((s) => s.id === 'discord')!.copy },
     { id: 'email', label: c.sendEmail, group: c.searchActions, icon: 'mail', href: `mailto:${site.contactEmail}`, keywords: 'email mail' },
     ...socials.filter((s) => s.href).map((s) => ({ id: s.id, label: fmt(c.openOn, { name: s.label }), group: c.searchActions, icon: s.id, href: s.href!, external: true })),
+    { id: 'theme', label: c.themeToggle, group: c.searchActions, icon: 'sun', action: 'theme', keywords: 'theme dark light mode thema donker licht tema escuro claro' },
+    { id: 'gg', label: c.gg, group: c.searchActions, icon: 'trophy', action: 'gg', hidden: true, keywords: 'gg victory royale wkey' },
     ...LANGS.map((code) => ({ id: `lang-${code}`, label: dictionaries[code].langName, group: c.searchLanguage, icon: 'globe' as const, href: `/lang/${code}` })),
   ];
   const suggestTexts = Object.fromEntries(LANGS.map((code) => [code, { text: dictionaries[code].common.langSuggest, yes: dictionaries[code].common.langSuggestYes, no: dictionaries[code].common.langSuggestNo }]));
   const langs = LANGS.map((code) => ({ code, short: dictionaries[code].langShort, name: dictionaries[code].langName, locale: locales[code] }));
 
   return (
-    <html lang={locales[lang]} className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang={locales[lang]} suppressHydrationWarning className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <noscript>
           {/* Without JS the mobile menu cannot open — show the nav inline instead. */}
           <style nonce={nonce}>{'.hdr__toggle{display:none!important}@media (max-width:1100px){.hdr__nav{display:block!important;position:static}.hdr__bar{flex-wrap:wrap}}'}</style>
@@ -71,7 +78,7 @@ export default async function RootLayout({ children, params }: { children: React
             nav={nav}
             langs={langs}
             lang={lang}
-            labels={{ home: d.nav.home, mainNav: d.common.mainNav, menuOpen: d.common.menuOpen, menuClose: d.common.menuClose, language: d.common.language, languageCurrent: d.common.languageCurrent, hireMe: d.common.hireMe, search: d.common.search }}
+            labels={{ home: d.nav.home, mainNav: d.common.mainNav, menuOpen: d.common.menuOpen, menuClose: d.common.menuClose, language: d.common.language, languageCurrent: d.common.languageCurrent, hireMe: d.common.hireMe, search: d.common.search, toLight: d.common.themeLight, toDark: d.common.themeDark }}
           />
           <main id="main" tabIndex={-1}>{children}</main>
           <Footer d={d} />
@@ -80,6 +87,7 @@ export default async function RootLayout({ children, params }: { children: React
           <Effects copiedLabel={d.common.copied} />
           <CommandPalette items={palette} labels={{ search: c.search, placeholder: c.searchPh, empty: c.searchEmpty, close: c.searchClose, copied: c.copied }} />
           <LangSuggest current={lang} texts={suggestTexts} />
+          {features.analytics() ? <Analytics /> : null}
         </Providers>
       </body>
     </html>

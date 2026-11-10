@@ -9,6 +9,7 @@ import { LogoMark } from '../ui/Logo';
 import { Icon } from '../ui/Icon';
 import type { Lang } from '@/lib/config';
 import { SearchButton } from './CommandPalette';
+import { ThemeToggle } from './ThemeToggle';
 
 export interface NavItem { href: string; label: string }
 export interface LangItem { code: Lang; short: string; name: string; locale: string }
@@ -42,7 +43,7 @@ export function Header({ nav, langs, lang, labels }: {
   nav: NavItem[];
   langs: LangItem[];
   lang: Lang;
-  labels: { home: string; mainNav: string; menuOpen: string; menuClose: string; language: string; languageCurrent: string; hireMe: string; search: string };
+  labels: { home: string; mainNav: string; menuOpen: string; menuClose: string; language: string; languageCurrent: string; hireMe: string; search: string; toLight: string; toDark: string };
 }) {
   const pathname = stripLang(usePathname());
   const [open, setOpen] = useState(false);
@@ -99,6 +100,7 @@ export function Header({ nav, langs, lang, labels }: {
           </nav>
         </LayoutGroup>
         <SearchButton label={labels.search} />
+        <ThemeToggle labels={{ toLight: labels.toLight, toDark: labels.toDark }} />
         <div className="hdr__actions">
           <LangSwitch langs={langs} current={lang} pathname={pathname} label={labels.language} currentLabel={labels.languageCurrent} id="lang-desktop" />
           <Link className="btn btn--primary btn--sm" href="/contact" data-magnetic="" aria-current={pathname === '/contact' ? 'page' : undefined}>

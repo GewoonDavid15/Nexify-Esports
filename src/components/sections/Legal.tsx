@@ -3,12 +3,15 @@ import { locales } from '@/lib/i18n';
 import { fmt } from '@/lib/i18n/fmt';
 import { LANG_COOKIE, LEGAL, type Lang } from '@/lib/config';
 import { Rich } from '../ui/Rich';
+import { features } from '@/lib/features';
 import { PageHero } from './Blocks';
 
 type Ns = 'privacy' | 'terms' | 'cookiesPage' | 'disclaimer';
 
 export function LegalPage({ d, ns, lang }: { d: Dict; ns: Ns; lang: Lang }) {
   const page = d[ns];
+  const on = { form: features.contactForm(), noForm: !features.contactForm(), analytics: features.analytics() };
+  const sections = page.sections.filter((s) => !('only' in s) || !s.only || on[s.only as keyof typeof on]);
   const vars = { name: LEGAL.name, email: LEGAL.email, days: LEGAL.retentionDays };
   const date = new Intl.DateTimeFormat(locales[lang], { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(LEGAL.updated));
   return (
@@ -26,7 +29,7 @@ export function LegalPage({ d, ns, lang }: { d: Dict; ns: Ns; lang: Lang }) {
               </table>
             </div>
           ) : null}
-          {page.sections.map((s, i) => (
+          {sections.map((s, i) => (
             <section key={s.h} className="lsec" aria-labelledby={`ls-${i}`} data-reveal="">
               <span className="lsec__n" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
               <div>

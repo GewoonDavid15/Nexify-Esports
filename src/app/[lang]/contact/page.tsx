@@ -6,6 +6,12 @@ import { Icon } from '@/components/ui/Icon';
 import { AvailabilityBadge, PageHero } from '@/components/sections/Blocks';
 import { Socials } from '@/components/sections/Socials';
 import { DiscordStatus } from '@/components/sections/DiscordStatus';
+import { ContactForm } from '@/components/sections/ContactForm';
+import { issueToken } from '@/lib/contact/spam';
+import { features } from '@/lib/features';
+
+// Per request: the form's anti-spam token must be fresh.
+export const dynamic = 'force-dynamic';
 
 export const generateMetadata = ({ params }: LangParams) => pageMeta(params, 'contact', '/contact');
 
@@ -28,6 +34,12 @@ export default async function Contact({ params }: LangParams) {
       <PageHero eyebrow={c.eyebrow} title={c.title} lead={c.lead} extra={<div className="phero__extra"><AvailabilityBadge d={d} /></div>} />
       <div className="wrap contact">
         <div className="contact__main">
+          {features.contactForm() ? (
+            <section className="panel panel--form" aria-labelledby="form-title" data-reveal="">
+              <h2 className="panel__title" id="form-title">{c.formTitle}</h2>
+              <ContactForm t={c} token={issueToken()} />
+            </section>
+          ) : null}
           <section className="panel panel--glow" aria-labelledby="email-title" data-reveal="" data-spot="">
             <h2 className="panel__title" id="email-title">{c.emailTitle}</h2>
             <p>{c.emailText}</p>

@@ -16,6 +16,8 @@
     "check": "npm run typecheck && npm test",
     "build:cv": "node scripts/build-cv.mjs",
     "build:og": "node scripts/build-og.mjs",
+    "build:og-pages": "node scripts/build-og-pages.mjs",
+    "build:icons": "node scripts/build-icons.mjs",
     "build:clouds": "node scripts/build-clouds.mjs",
     "build:mediakit": "node scripts/build-mediakit.mjs"
   },
@@ -23,6 +25,7 @@
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@vercel/analytics": "^2.0.1",
     "motion": "^12.43.0",
     "next": "^16.4.6",
     "react": "^19.3.1",

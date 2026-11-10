@@ -5,8 +5,10 @@ import { useRouter, usePathname } from 'next/navigation';
 import { AnimatePresence, m } from 'motion/react';
 import { Icon, type IconName } from '../ui/Icon';
 import { stripLang } from '@/lib/path';
+import { toggleTheme } from '@/lib/client/theme';
+import { confetti } from '@/lib/client/confetti';
 
-export interface PaletteItem { id: string; label: string; group: string; icon: IconName; href?: string; external?: boolean; copy?: string; download?: string; keywords?: string }
+export interface PaletteItem { id: string; label: string; group: string; icon: IconName; href?: string; external?: boolean; copy?: string; download?: string; keywords?: string; action?: 'theme' | 'gg'; hidden?: boolean }
 
 /** Ctrl/⌘+K (or "/") command palette: jump to pages, download the CV, copy Discord, switch language. */
 export function CommandPalette({ items, labels }: { items: PaletteItem[]; labels: { search: string; placeholder: string; empty: string; close: string; copied: string } }) {
@@ -20,7 +22,9 @@ export function CommandPalette({ items, labels }: { items: PaletteItem[]; labels
 
   const results = useMemo(() => {
     const n = q.trim().toLowerCase();
-    return n ? items.filter((i) => `${i.label} ${i.keywords ?? ''} ${i.group}`.toLowerCase().includes(n)) : items;
+    // Hidden items (the easter egg) only appear for an exact keyword.
+    if (!n) return items.filter((i) => !i.hidden);
+    return items.filter((i) => (i.hidden ? (i.keywords ?? '').split(' ').includes(n) : `${i.label} ${i.keywords ?? ''} ${i.group}`.toLowerCase().includes(n))).sort((a, b) => Number(!!b.hidden) - Number(!!a.hidden));
   }, [q, items]);
 
   useEffect(() => {
@@ -42,6 +46,7 @@ export function CommandPalette({ items, labels }: { items: PaletteItem[]; labels
   useEffect(() => { setActive(0); }, [q]);
 
   const run = async (i: PaletteItem) => {
+    if (i.action) { setOpen(false); if (i.action === 'theme') toggleTheme(); else setTimeout(confetti, 120); return; }
     if (i.copy) { try { await navigator.clipboard.writeText(i.copy); } catch { /* ignore */ } const t = document.querySelector<HTMLElement>('[data-toast]'); if (t) { t.textContent = `${labels.copied}: ${i.copy}`; t.classList.add('is-visible'); setTimeout(() => t.classList.remove('is-visible'), 2400); } setOpen(false); return; }
     if (!i.href) return;
     setOpen(false);
@@ -85,7 +90,7 @@ export function CommandPalette({ items, labels }: { items: PaletteItem[]; labels
                       onMouseMove={() => setActive(idx)} onClick={() => run(i)}>
                       <span className="cmdk__icon" aria-hidden><Icon name={i.icon} /></span>
                       <span>{i.label}</span>
-                      <Icon name={i.external ? 'external' : i.copy ? 'copy' : 'arrow'} className="cmdk__go" />
+                      <Icon name={i.external ? 'external' : i.copy ? 'copy' : i.action ? 'spark' : 'arrow'} className="cmdk__go" />
                     </div>
                   </li>
                 );

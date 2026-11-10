@@ -3,20 +3,22 @@ import { pageMeta } from '@/lib/meta';
 import { socials } from '@/lib/config';
 import { Button } from '@/components/ui/Button';
 import { EmptyState, PageHero } from '@/components/sections/Blocks';
+import { WorkGrid } from '@/components/sections/Work';
+import { work } from '@/lib/work';
 
 export const generateMetadata = ({ params }: LangParams) => pageMeta(params, 'portfolio', '/portfolio');
 
 export default async function Portfolio({ params }: LangParams) {
-  const { d } = await i18nFromParams(params);
+  const { d, lang } = await i18nFromParams(params);
   const p = d.portfolio;
   const yt = socials.find((s) => s.id === 'youtube')!;
   return (
     <>
       <PageHero eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
-      <section className="sec sec--top0"><div className="wrap wrap--narrow">
+      {work.length ? <WorkGrid items={work} d={d} lang={lang} /> : <section className="sec sec--top0"><div className="wrap wrap--narrow">
         <EmptyState icon="folder" title={p.emptyTitle} text={p.emptyText} hint={p.emptyHint}
           actions={<><Button href={yt.href!} variant="ghost" icon="youtube" iconFirst external newTabLabel={d.common.newTab}>{p.youtube}</Button><Button href="/contact">{d.common.contactMe}</Button></>} />
-      </div></section>
+      </div></section>}
     </>
   );
 }

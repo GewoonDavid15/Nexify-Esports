@@ -5,7 +5,8 @@ import { Button, CvButton } from '@/components/ui/Button';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { Typewriter } from '@/components/motion/Typewriter';
 import { Avatar } from '@/components/ui/Avatar';
-import { DiscordStatus } from '@/components/sections/DiscordStatus';
+import { DiscordStatus, NowPlaying } from '@/components/sections/DiscordStatus';
+import { Events } from '@/components/sections/Events';
 import { AvailabilityBadge, CtaBand, SectionHead, StatBar, Tile, TileIcon } from '@/components/sections/Blocks';
 import { Highlights } from '@/components/sections/Experience';
 import { availability } from '@/lib/status';
@@ -18,7 +19,7 @@ const floaters: { icon: IconName; cls: string }[] = [
 ];
 
 export default async function Home({ params }: LangParams) {
-  const { d } = await i18nFromParams(params);
+  const { d, lang } = await i18nFromParams(params);
   const h = d.home;
   const what = [
     { icon: 'gamepad' as const, title: d.about.playerTitle, text: d.about.playerText, href: '/achievements' },
@@ -59,7 +60,10 @@ export default async function Home({ params }: LangParams) {
           { icon: 'calendar', value: h.facts[0].value, label: h.facts[0].label },
         ]} />
         <p className="hero__status" data-reveal="">{availability(d).text}</p>
+        <NowPlaying t={{ title: d.common.nowPlaying, text: d.common.nowPlayingText }} />
       </div>
+
+      <Events d={d} lang={lang} />
 
       <section className="sec" aria-labelledby="what-title">
         <div className="wrap">

@@ -11,6 +11,8 @@ export async function pageMeta(params: LangParams['params'], key: keyof Dict['me
   const m = d.meta[key];
   const title = key === 'home' ? m.title : `${m.title} · ${site.name}`;
   const url = (code: Lang) => `${base}${path}${code === 'en' ? '' : `?lang=${code}`}`;
+  const slug = path === '/' ? 'home' : path.slice(1);
+  const og = `${base}/og/${lang}/${slug}.jpg`;
   const languages: Record<string, string> = Object.fromEntries(LANGS.map((c) => [locales[c], url(c)]));
   languages['x-default'] = url('en');
   return {
@@ -22,8 +24,8 @@ export async function pageMeta(params: LangParams['params'], key: keyof Dict['me
     openGraph: {
       type: 'website', siteName: site.name, title, description: m.description, url: url(lang),
       locale: locales[lang].replace('-', '_'),
-      images: [{ url: `${base}${site.ogImage}`, width: 1200, height: 630, alt: 'Nexify — Esports Social Media Manager & Competitive Fortnite Player' }],
+      images: [{ url: og, width: 1200, height: 630, alt: title }],
     },
-    twitter: { card: 'summary_large_image', site: '@OfficialNexify', title, description: m.description, images: [`${base}${site.ogImage}`] },
+    twitter: { card: 'summary_large_image', site: '@OfficialNexify', title, description: m.description, images: [og] },
   };
 }

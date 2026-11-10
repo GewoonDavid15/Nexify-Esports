@@ -5,19 +5,28 @@ import { AnimatePresence, m } from 'motion/react';
 import { fmt } from '@/lib/i18n/fmt';
 import { Icon } from '../ui/Icon';
 
-type Status = { enabled: boolean; status?: 'online' | 'idle' | 'dnd' | 'offline'; game?: string | null };
+export type Status = { enabled: boolean; status?: 'online' | 'idle' | 'dnd' | 'offline'; game?: string | null; details?: string | null; state?: string | null };
 type Labels = { label: string; online: string; idle: string; dnd: string; offline: string; playing: string };
+
+// One shared poll for every status widget on the page.
+let cache: Status | null = null;
+const subs = new Set<(s: Status) => void>();
+let timer: ReturnType<typeof setInterval> | null = null;
+const load = () => fetch('/api/discord-status').then((r) => r.json()).then((j: Status) => { cache = j; subs.forEach((f) => f(j)); }).catch(() => {});
+
+export function useDiscordStatus() {
+  const [s, setS] = useState<Status | null>(cache);
+  useEffect(() => {
+    subs.add(setS);
+    if (!timer) { load(); timer = setInterval(load, 30_000); }
+    return () => { subs.delete(setS); if (!subs.size && timer) { clearInterval(timer); timer = null; } };
+  }, []);
+  return s;
+}
 
 /** Live Discord presence; renders nothing until a status is available. */
 export function DiscordStatus({ t, handle }: { t: Labels; handle: string }) {
-  const [s, setS] = useState<Status | null>(null);
-  useEffect(() => {
-    let alive = true;
-    const load = () => fetch('/api/discord-status').then((r) => r.json()).then((j: Status) => { if (alive) setS(j); }).catch(() => {});
-    load();
-    const id = setInterval(load, 30_000);
-    return () => { alive = false; clearInterval(id); };
-  }, []);
+  const s = useDiscordStatus();
   const show = s?.enabled && s.status;
   // Fixed-height slot so the heading never moves when the status arrives.
   return (
@@ -34,5 +43,25 @@ export function DiscordStatus({ t, handle }: { t: Labels; handle: string }) {
       ) : null}
     </AnimatePresence>
     </div>
+  );
+}
+
+/** Bigger "Now playing" card; only visible while a game is running. */
+export function NowPlaying({ t }: { t: { title: string; text: string } }) {
+  const s = useDiscordStatus();
+  const game = s?.enabled && s.game ? s : null;
+  return (
+    <AnimatePresence>
+      {game ? (
+        <m.div className="nowplay" role="status" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+          <span className="nowplay__icon" aria-hidden><Icon name="gamepad" /></span>
+          <div>
+            <p className="nowplay__k"><i aria-hidden />{t.title} · {t.text}</p>
+            <p className="nowplay__game">{game.game}</p>
+            {game.details || game.state ? <p className="nowplay__detail">{[game.details, game.state].filter(Boolean).join(' · ')}</p> : null}
+          </div>
+        </m.div>
+      ) : null}
+    </AnimatePresence>
   );
 }

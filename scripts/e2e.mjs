@@ -121,7 +121,22 @@ try {
     }
     const ds = await (await fetch(`${base}/api/discord-status`)).json();
     if (typeof ds.enabled !== 'boolean' || (ds.enabled && !['online', 'idle', 'dnd', 'offline'].includes(ds.status))) fail(`unexpected discord status payload: ${JSON.stringify(ds)}`);
-    if (Object.keys(ds).some((k) => !['enabled', 'status', 'game'].includes(k))) fail('discord status leaks extra fields');
+    if (Object.keys(ds).some((k) => !['enabled', 'status', 'game', 'details', 'state'].includes(k))) fail('discord status leaks extra fields');
+    await ctx.close();
+  }
+  // Light mode toggle persists; manifest + per-page share image exist
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await ctx.newPage();
+    await page.goto(`${base}/about`, { waitUntil: 'networkidle' });
+    await page.locator('.theme-btn').click();
+    if ((await page.getAttribute('html', 'data-theme')) !== 'light') fail('theme toggle did not switch to light');
+    await page.reload();
+    if ((await page.getAttribute('html', 'data-theme')) !== 'light') fail('light theme not remembered after reload');
+    const og = await page.getAttribute('meta[property="og:image"]', 'content');
+    if (!og?.endsWith('/og/en/about.jpg')) fail(`unexpected og:image ${og}`);
+    if ((await fetch(`${base}/og/en/about.jpg`)).status !== 200) fail('per-page share image missing');
+    if ((await fetch(`${base}/manifest.webmanifest`)).status !== 200) fail('web manifest missing');
     await ctx.close();
   }
   // Reduced motion: nothing stays hidden
